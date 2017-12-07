@@ -2,6 +2,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
 
 use App\Models\Menu;
 
@@ -80,6 +83,13 @@ class MenuController extends Controller
 		self::destroyMenu();
 		session()->put('menusLeft', Menu::menus());
 		session()->put('menusTop', Menu::menus(false, 'TOP'));
+		session()->put('menuColors', [
+			'colorBackground'=>'#339933',
+			'colorIcon'=>'red',
+			'colorBorder'=>'#346d34',
+			'colorBackgroundActive'=>'red',
+			'colorIconActive'=>'#339933',
+		]);
 	}
 
 	/**

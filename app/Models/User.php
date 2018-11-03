@@ -1,58 +1,73 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
 use App\Traits\RelationshipsTrait;
 
-class User extends Authenticatable
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+
+use Illuminate\Notifications\Notifiable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable implements AuditableContract
 {
-	use EntrustUserTrait, RelationshipsTrait;
+    use Notifiable, EntrustUserTrait, RelationshipsTrait, AuditableTrait;
 
-	//Nombre de la tabla en la base de datos
-	protected $table = 'USERS';
-    protected $primaryKey = 'USER_id';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'username',
+        'cedula',
+        'email',
+        'password',
+        'USER_CREADOPOR',
+        'USER_MODIFICADOPOR',
+    ];
 
-	//Traza: Nombre de campos en la tabla para auditoría de cambios
-	const CREATED_AT = 'created_at';
-	const UPDATED_AT = 'modified_at';
-	const DELETED_AT = 'deleted_at';
-	protected $dates = ['created_at', 'modified_at', 'deleted_at'];
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'name',
-		'username',
-		'cedula',
-		'email',
-		'password',
-		'USER_MODIFICADOPOR',
-	];
+    //Traza: Nombre de campos en la tabla para auditoría de cambios
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'modified_at';
+    const DELETED_AT = 'deleted_at';
+    protected $dates = ['created_at', 'modified_at', 'deleted_at'];
 
-	/**
-	 * The attributes that should be hidden for arrays.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [
-		'password',
-		'remember_token',
-	];
 
-	public static function rules($id = 0){
-		return [
-			'name'      => 'required|max:255',
-			'username'  => ['required','max:15',static::unique($id,'username')],
-			'cedula'    => ['required','max:15',static::unique($id,'cedula')],
-			'email'     => ['required','email','max:320',static::unique($id,'email')],
-			'roles_ids' => 'required|array',
-			'password'  => 'required|min:6|confirmed',
-		];
-	}
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+
+    /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array
+     */
+    protected $auditExclude = [
+        'password',
+        'remember_token',
+    ];
+    
+    public static function rules($id = 0){
+        return [
+            'name'      => 'required|max:255',
+            'username'  => ['required','max:15',static::unique($id,'username')],
+            'cedula'    => ['required','max:15',static::unique($id,'cedula')],
+            'email'     => ['required','email','max:320',static::unique($id,'email')],
+            'roles_ids' => 'required|array',
+            'password'  => 'required|min:6|confirmed',
+        ];
+    }
 
     protected static function unique($id, $column, $table = null){
         $instance = new static;
@@ -61,17 +76,12 @@ class User extends Authenticatable
         return 'unique:'.$table.','.$column.','.$id.','.$instance->getKeyName();
     }
 
-	//establecemos las relaciones con el modelo Role, ya que un usuario puede tener varios roles
-	//y un rol lo pueden tener varios usuarios
-	public function roles(){
-		return $this->belongsToMany(Role::class);
-	}
+    //establecemos las relaciones con el modelo Role, ya que un usuario puede tener varios roles
+    //y un rol lo pueden tener varios usuarios
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
 
-	public function tickets()
-	{
-		$foreingKey = 'USER_id';
-		return $this->hasMany(Ticket::class, $foreingKey);
-	}
 
     /**
      * Perform the actual delete query on this model instance.
@@ -100,18 +110,18 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function($model) {
-            $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
-            $created_by = $prefix.'_CREADOPOR';
             $model->username = strtolower($model->username);
-            $model->$created_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
+            if(!isset($model->USER_CREADOPOR))
+                $model->USER_CREADOPOR = auth()->check() ? auth()->user()->username : 'SYSTEM';
             return true;
         });
         static::updating(function($model) {
-            $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
-            $updated_by = $prefix.'_MODIFICADOPOR';
-            $model->$updated_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
+            $model->USER_MODIFICADOPOR = auth()->check() ? auth()->user()->username : 'SYSTEM';
             return true;
         });
     }
 
+    public static function resolveId() {
+        return auth()->check() ? auth()->user()->getAuthIdentifier() : null;
+    }
 }

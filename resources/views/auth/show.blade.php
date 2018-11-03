@@ -58,7 +58,7 @@
 							
 								<br>
 								<a class="btn btn-warning" role="button" href="{{ URL::to('usuarios/') }}">
-									<i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
+									<i class="fas fa-arrow-left" aria-hidden="true"></i> Regresar
 								</a>
 
 							</div>

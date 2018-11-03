@@ -7,13 +7,13 @@
 					<option value="bar">Barras</option>
 					<option value="pie">Torta</option>
 				</select>
-				<a class="panelButton"><i class="fa fa-refresh"></i></a>
-				<a class="panelButton"><i class="fa fa-minus"></i></a>
-				<a class="panelButton"><i class="fa fa-remove"></i></a>
+				<a class="panelButton"><i class="fas fa-sync-alt"></i></a>
+				<a class="panelButton"><i class="fas fa-minus"></i></a>
+				<a class="panelButton"><i class="fas fa-times"></i></a>
 			</div>
 		</div>
 		<div class="panel-body">
-			<canvas class="canvas-chart" id="{{$idCanvas}}" style="height:250px"></canvas>
+			<canvas class="canvas-chart" id="{{$idCanvas}}" style="height:350px"></canvas>
 		</div>
 	</div>
 </div>

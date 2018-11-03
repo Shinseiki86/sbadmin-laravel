@@ -3,12 +3,12 @@
 		<input id="search-menu" type="text" class="form-control" placeholder="Buscar...">
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button">
-				<i class="fa fa-search"></i>
+				<i class="fas fa-search"></i>
 			</button>
 		</span>
 	</div>
 	<div class="search-icon">
-		<a href="#"><i class="fa fa fa-search fa-fw"></i></a>
+		<a href="#"><i class="fas fa fa-search fa-fw"></i></a>
 	</div>
 	<!-- /input-group -->
 </li>

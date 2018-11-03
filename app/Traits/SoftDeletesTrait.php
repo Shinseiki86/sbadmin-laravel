@@ -30,20 +30,21 @@ trait SoftDeletesTrait
         //$deleted_by => (\Auth::id()) ?: null
     }
 
-        
     protected static function boot() {
         parent::boot();
 
         static::creating(function($model) {
             $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
             $created_by = $prefix.'_CREADOPOR';
-            $model->$created_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
+            if(!isset($model->$created_by))
+                $model->$created_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
             return true;
         });
         static::updating(function($model) {
             $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
             $updated_by = $prefix.'_MODIFICADOPOR';
-            $model->$updated_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
+            if(!isset($model->$updated_by))
+                $model->$updated_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
             return true;
         });
     }

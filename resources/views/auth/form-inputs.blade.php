@@ -1,6 +1,6 @@
-@include('chosen')
+@include('widgets.select2')
 
-@include('widgets.forms.input', ['type'=>'text', 'column'=>4, 'name'=>'username', 'label'=>'Usuario', 'options'=>['maxlength' => '30', 'disabled'] ])
+@include('widgets.forms.input', ['type'=>'text', 'column'=>4, 'name'=>'username', 'label'=>'Nombre de Usuario','options'=>['maxlength' => '30']])
 
 @include('widgets.forms.input', ['type'=>'text', 'column'=>8, 'name'=>'name', 'label'=>'Nombre', 'options'=>['maxlength' => '100'] ])
 
@@ -9,3 +9,5 @@
 @include('widgets.forms.input', ['type'=>'email', 'column'=>8, 'name'=>'email', 'label'=>'Correo electrónico'])
 
 @include('widgets.forms.input', ['type'=>'select', 'name'=>'roles_ids', 'label'=>'Roles', 'data'=>$arrRoles, 'multiple'=>true,])
+
+

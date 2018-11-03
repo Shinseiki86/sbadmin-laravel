@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 /*
 	https://laracasts.com/discuss/channels/eloquent/get-all-model-relationships
 	@phildawson
-	Obtener las relaciones (hasMany, ) que tiene un modelo.
+	Obtener las relaciones (BelongsTo, hasMany, BelongsToMany, ...) que tiene un modelo.
 */
 trait RelationshipsTrait
 {
@@ -34,21 +34,28 @@ trait RelationshipsTrait
 					$type = (new ReflectionClass($return))->getShortName();
 					if($onlyType != null && $onlyType != $type)
 						continue;
-
-					$relModelName = (new ReflectionClass($return->getRelated()))->getName();
+					$modelRelated = $return->getRelated();
+					$relModelName = (new ReflectionClass($modelRelated))->getName();
 					$methodName = $method->getName();
 					$count = $this->$methodName()->count();
 
 					$relationships[$methodName] = [
-						'type' => $type,
-						'model' => $relModelName,
-						'count' => $count,
+						'type'       => $type,
+						'primaryKey' => $modelRelated->primaryKey,
+						'model'      => $relModelName,
+						'count'      => $count,
 					];
 				}
 			} catch(ErrorException $e) {}
 		}
 
 		return $relationships;
+	}
+
+
+	public static function getRelationships(){
+		$model = new static;
+		return $model->relationships();
 	}
 
 

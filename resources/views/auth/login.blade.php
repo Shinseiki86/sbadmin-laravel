@@ -4,10 +4,10 @@
 <style type="text/css">
 	html, body {height: 100%;}
 	body { 
-		background: url('{{ File::exists('assets/images/logo-user.png') ? asset('assets/images/logo-user.png') : asset('assets/images/logo-default.png') }}') no-repeat fixed center;
+		background: url('{{ get_logo() }}') no-repeat fixed right bottom;
 	}
 	.panel { 
-		background: rgba(255, 255, 255, 0.91);
+		background: rgba(255, 255, 255, 0.8);
 	}
 	.container {
 		height: 100%;
@@ -31,7 +31,7 @@
 					<fieldset>
 						<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<span class="input-group-addon"><i class="fas fa-user"></i></span>
 								<input id="username" placeholder="Usuario" type="text" class="form-control" name="username" value="{{ old('username') }}" autofocus>
 							</div>
 							@if ($errors->has('username'))
@@ -43,7 +43,7 @@
 
 						<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-key"></i></span>
+								<span class="input-group-addon"><i class="fas fa-key"></i></span>
 								<input id="password" placeholder="Contraseña" name="password" type="password" class="form-control" autocomplete="off" maxlength="30">
 							</div>
 							@if ($errors->has('password'))
@@ -53,7 +53,7 @@
 							@endif
 						</div>
 
-						<div class="form-group">
+						<div class="">
 							<div class="col-md-offset-1">
 								<div class="checkbox">
 									<label>
@@ -64,12 +64,18 @@
 						</div>
 
 						<div class="form-group">
-							<button type="submit" class="btn btn-primary">
-								<i class="fa fa-sign-in"></i> Iniciar sesión
-							</button>
-							<a class="btn btn-link" href="{{ url('/password/reset') }}">
-								¿Olvidó su contraseña?
-							</a>
+							<div class="row">
+								<div class="col-xs-6">
+									<button type="submit" class="btn btn-primary" name="login">
+										<i class="fas fa-sign-in"></i> Iniciar sesión
+									</button>
+								</div>
+								<div class="col-xs-6">
+									<a class="btn btn-link" href="{{ url('/password/reset') }}">
+										¿Olvidó su contraseña?
+									</a>
+								</div>
+							</div>
 						</div>
 					</fieldset>
 				{{ Form::close() }}
@@ -78,4 +84,4 @@
 		</div>
 	</div>
 </div>
-@stop
+@endsection

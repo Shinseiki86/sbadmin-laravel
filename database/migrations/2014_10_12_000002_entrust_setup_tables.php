@@ -12,6 +12,8 @@ class EntrustSetupTables extends Migration
     public function up()
     {
         echo '- Creando tablas ENTRUST...' . PHP_EOL;
+        DB::beginTransaction();
+
         // Create table for storing roles
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
@@ -19,7 +21,6 @@ class EntrustSetupTables extends Migration
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         // Create table for associating roles to users (Many-to-Many)
@@ -27,7 +28,7 @@ class EntrustSetupTables extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
 
-            $table->foreign('user_id')->references('USER_id')->on('USERS')
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -42,7 +43,6 @@ class EntrustSetupTables extends Migration
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         // Create table for associating permissions to roles (Many-to-Many)
@@ -57,6 +57,8 @@ class EntrustSetupTables extends Migration
 
             $table->primary(['permission_id', 'role_id']);
         });
+
+        DB::commit();
     }
 
     /**
@@ -67,9 +69,9 @@ class EntrustSetupTables extends Migration
     public function down()
     {
         echo '- Borrando tablas ENTRUST...' . PHP_EOL;
-        Schema::dropIfExists('permission_role');
-        Schema::dropIfExists('permissions');
-        Schema::dropIfExists('role_user');
-        Schema::dropIfExists('roles');
+        Schema::drop('permission_role');
+        Schema::drop('permissions');
+        Schema::drop('role_user');
+        Schema::drop('roles');
     }
 }

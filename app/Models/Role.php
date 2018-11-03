@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Zizaco\Entrust\EntrustRole;
@@ -6,9 +7,13 @@ use App\Traits\ModelRulesTrait;
 //use App\Traits\SoftDeletesTrait;
 use App\Traits\RelationshipsTrait;
 
-class Role extends EntrustRole
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+
+class Role extends EntrustRole implements AuditableContract
 {
-    use RelationshipsTrait, ModelRulesTrait;
+    use RelationshipsTrait, ModelRulesTrait, AuditableTrait;
+    //use SoftDeletesTrait;
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -19,6 +24,15 @@ class Role extends EntrustRole
 		'display_name',
 		'description',
 	];
+
+	//Constantes para referenciar los roles primarios
+	const OWNER 	= 1;
+	const ADMIN 	= 2;
+	const GESTHUM	= 3;
+	const SUPEROPER	= 4;
+	const COOROPER	= 5;
+	const EMPLEADO	= 6;
+	const EJECUTIVO	= 7;
 
 	public static function rules($id = 0){
 		return [

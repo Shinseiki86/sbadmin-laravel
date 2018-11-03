@@ -1,11 +1,11 @@
 <header>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+    <nav class="navbar {{ config('app.debug') ? 'navbar-custom2' : 'navbar-custom1'}} navbar-fixed-top" role="navigation" style="margin-bottom: 0">
 
         <div class="col-xs-1">
-            <a class="navbar-brand" href="{{ url ('') }}" >SGH</a>
+            <a class="navbar-brand" href="{{ url ('') }}" >{{ config('app.name', 'APP_NAME') }}</a>
             <!--menu toggle button -->
             <button id="menu-toggle" type="button" data-toggle="button" class="menu-toggler sidebar-toggler btn btn-link" style="margin-left: 0px;color: #333;">
-                <i class="fa fa-toggle-off fa-fw"></i>
+                <i class="fas fa-toggle-off fa-fw"></i>
             </button>
         </div>
 
@@ -37,13 +37,13 @@
                 @if( null !== Auth::user() )
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <i class="fas fa-user fa-fw"></i> <i class="fas fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{ url('app/parameters') }}"><i class="fa fa-user fa-fw"></i> Parametrizar {{ Auth::user()->username }}</a></li>
-                        <li><a href="{{ url('password/reset') }}"><i class="fa fa-key fa-fw"></i> Cambiar contraseña</a></li>
+                        <li><a href="{{ url('app/parameters') }}"><i class="fas fa-user fa-fw"></i> Parametrizar {{ Auth::user()->username }}</a></li>
+                        <li><a href="{{ url('password/reset') }}"><i class="fas fa-key fa-fw"></i> Cambiar contraseña</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ url('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        <li><a href="{{ url('logout') }}"><i class="fas fa-sign-out-alt fa-fw"></i> Logout</a></li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>

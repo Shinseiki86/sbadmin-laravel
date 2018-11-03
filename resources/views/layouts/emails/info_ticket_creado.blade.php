@@ -23,7 +23,7 @@
         <li class="list-group-item">
           <div class="row">
             <div class="col-lg-4"><strong>Fecha Creación:</strong>
-            {{ $ticket->TICK_FECHASOLICITUD }}
+            {{ $ticket->TICK_FECHACREADO }}
             </div>
            
           </div>
@@ -32,7 +32,7 @@
         <li class="list-group-item">
           <div class="row">
             <div class="col-lg-4"><strong>Empleado:</strong>
-            {{ nombre_empleado($ticket -> contrato -> PROS_ID) }}
+            {{ $ticket -> contrato -> prospecto -> nombre_completo }}
             </div>
           </div>
         </li>
@@ -96,7 +96,7 @@
       <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
       para ver el detalle del ticket haga click en el enlace <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> 
       <!-- Botón Ver (show) -->
-          <a class="btn btn-small btn-basic btn-xs" href="{{ URL::to('cnfg-tickets/tickets/' . $ticket->TICK_ID  ) }}" data-tooltip="tooltip" title="Ver">
+          <a class="btn btn-small btn-basic btn-xs" href="{{ Config::get('app.url').'/cnfg-tickets/tickets/' . $ticket->TICK_ID }}" data-tooltip="tooltip" title="Ver">
             Ver Ticket
           </a>
       </strong>.

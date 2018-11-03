@@ -18,7 +18,8 @@ use App\Models\Permission;
             $date = \Carbon\Carbon::now()->toDateTimeString();
             //$faker = Faker\Factory::create('es_ES');
 
-            $this->command->info('--- Seeder Creación de Roles');
+            //*********************************************************************
+           $this->command->info('--- Seeder Creación de Roles');
 
                 $this->rolOwner = Role::create([
                     'name'         => 'owner',
@@ -45,94 +46,144 @@ use App\Models\Permission;
                     'display_name' => 'Coordinador Operaciones',
                     //'description'  => 'Comentario',
                 ]);
+                $rolEmpleado = Role::create([
+                    'name'         => 'empleado',
+                    'display_name' => 'Empleado',
+                    //'description'  => 'Comentario',
+                ]);
+                $rolEjecutivo = Role::create([
+                    'name'         => 'ejecutivo',
+                    'display_name' => 'Ejecutivo de Cuenta',
+                    //'description'  => 'Comentario',
+                ]);
 
+
+
+            //*********************************************************************
             $this->command->info('--- Seeder Creación de Permisos');
+
+                $menu = Permission::create([
+                    'name'         => 'app-menu',
+                    'display_name' => 'Administrar menú',
+                    'description'  => 'Permite crear, eliminar y ordenar el menú del sistema.',
+                ]);
+                $parameters = Permission::create([
+                    'name'         => 'app-parameters',
+                    'display_name' => 'Administrar parámetros',
+                    'description'  => 'Permite crear, eliminar y ordenar los parámetros del sistema.',
+                ]);
+                $uploads = Permission::create([
+                    'name'         => 'app-upload',
+                    'display_name' => 'Cargas masivas',
+                    'description'  => '¡CUIDADO! Permite realizar cargas masivas de datos en el sistema.',
+                ]);
+                $parametersg = Permission::create([
+                    'name'         => 'app-parametersglobal',
+                    'display_name' => 'Administrar parámetros generales del Sistema',
+                    'description'  => 'Permite crear, eliminar y ordenar los parámetros generales del sistema.',
+                ]);
+
+                $this->rolOwner->attachPermissions([$menu, $parameters, $uploads]);
+                $this->rolAdmin->attachPermission($menu);
+                $this->rolAdmin->attachPermission($parametersg);
+
+                $reportes = Permission::create([
+                    'name'         => 'reportes',
+                    'display_name' => 'Reportes',
+                    'description'  => 'Permite ejecutar reportes y exportarlos.',
+                ]);
+                $this->rolOwner->attachPermission($reportes);
+                $this->rolAdmin->attachPermissions([$reportes,$uploads]);
+                $this->rolGestHum->attachPermission($reportes);
+                $rolEjecutivo->attachPermission($reportes);
+                $rolSuperOper->attachPermission($reportes);
+                $rolCoorOper->attachPermission($reportes);
 
                 $this->createPermissions(User::class, 'usuarios', null,  true, false);
                 $this->createPermissions(Permission::class, 'permisos', null, true, false);
                 $this->createPermissions(Role::class, 'roles', null, true, false);
-                $this->createPermissions(Menu::class, 'opciones del menú', null, true, false);
-
-                $this->createPermissions(Pais::class, 'países');
-                $this->createPermissions(Departamento::class, 'departamentos');
-                $this->createPermissions(Ciudad::class, 'ciudades');
 
                 /*
-                $perms = $this->createPermissions(Ticket::class, 'tickets');
-                $rolSuperOper->attachPermissions([
-                    $perms['index'],
-                    $perms['create'],
-                    $perms['edit'],
-                ]);
-                $rolCoorOper->attachPermissions([
-                    $perms['index'],
-                    $perms['create'],
-                    $perms['edit'],
-                ]);*/
+                $this->createPermissions(Pais::class, 'países', null, true, false);
+                $this->createPermissions(Departamento::class, 'departamentos', null, true, false);
+                $this->createPermissions(Ciudad::class, 'ciudades', null, true, false);
+                */
 
+                //$this->createPermissions(Prospecto::class, 'hojas de vida');
+                
 
+            //*********************************************************************
             $this->command->info('--- Seeder Creación de Usuarios prueba');
 
                 //Admin
-                $admin = User::create( [
+                $admin = User::firstOrcreate( [
                     'name' => 'Administrador',
-                    'cedula' => 1144173746,
+                    'cedula' => 1,
                     'username' => 'admin',
                     'email' => 'sghmasterpromo@gmail.com',
-                    'password'  => \Hash::make($pass)
+                    'password'  => \Hash::make($pass),
                 ]);
-                // role attach alias
-                $admin->attachRole($this->rolAdmin); // parameter can be an Role object, array, or id
-                // or eloquent's original technique
-                //$admin->roles()->attach($this->rolAdmin->id); // id only
+                $admin->attachRole($this->rolAdmin);
 
                 //Owner
                 $owner = User::create( [
                     'name' => 'Owner',
-                    'cedula' => 1144173745,
+                    'cedula' => 2,
                     'username' => 'owner',
-                    'email' => 'diegoarmandocortes@outlook.com',
-                    'password'  => \Hash::make('Side102')
-                ]);
-                $owner->attachRole($this->rolOwner);
-
-                //Owner
-                $owner = User::create( [
-                    'name' => 'Owner1',
-                    'cedula' => 1144173744,
-                    'username' => 'owner1',
-                    'email' => 'rodriguez221293@outlook.com',
-                    'password'  => \Hash::make($pass)
+                    'email' => 'owner@mail.com',
+                    'password'  => \Hash::make($pass),
                 ]);
                 $owner->attachRole($this->rolOwner);
 
                 //Editores
                 $gesthum1 = User::create( [
                     'name' => 'Gestión humana 1 de prueba',
-                    'cedula' => 1144173743,
+                    'cedula' => 444444444,
                     'username' => 'gesthum1',
-                    'email' => 'eva360.uniajc@gmail.com',
-                    'password'  => \Hash::make($pass)
+                    'email' => 'kfrodriguez@misena.edu.co',
+                    'password'  => \Hash::make($pass),
+                    'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
                 $gesthum1->attachRole($this->rolGestHum);
 
-                $gesthum2 = User::create( [
-                    'name' => 'Gestión humana 2 de prueba',
-                    'cedula' => 1144173742,
-                    'username' => 'gesthum2',
-                    'email' => 'sgh@gmail.com',
-                    'password'  => \Hash::make($pass)
+                $super = User::create( [
+                    'name' => 'Supervisor de prueba',
+                    'cedula' => 555555555,
+                    'username' => 'superoper',
+                    'email' => 'coordinadornomin@aseoregional.com',
+                    'password'  => \Hash::make($pass),
+                    'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
-                $gesthum2->attachRole($this->rolGestHum);
+                $super->attachRole($rolSuperOper);
+
+                $coordi = User::create( [
+                    'name' => 'Coordinador de prueba',
+                    'cedula' => 6666666666,
+                    'username' => 'coordi',
+                    'email' => 'coordi@outlook.com',
+                    'password'  => \Hash::make($pass),
+                    'USER_CREADOPOR'  => 'PRUEBAS'
+                ]);
+                $coordi->attachRole($rolCoorOper);
+
+                $ejecutivo = User::create( [
+                    'name' => 'Ejecutivo de prueba',
+                    'cedula' => 7777777777,
+                    'username' => 'ejecutivo',
+                    'email' => 'ejecutivo@gmail.com',
+                    'password'  => \Hash::make($pass),
+                    'USER_CREADOPOR'  => 'PRUEBAS'
+                ]);
+                $ejecutivo->attachRole($rolEjecutivo);
 
                 //5 usuarios faker
-                //$USERS = factory(App\User::class)->times(5)->create();
+                //$users = factory(SGH\User::class)->times(5)->create();
 
 		}
 
         private function createPermissions($name, $display_name, $description = null, $attachAdmin=true, $attachGestHum=true)
         {
-            $name = basename($name);
+            $name = strtolower(basename(get_model($name)));
 
             if($description == null)
                 $description = $display_name;

@@ -4,7 +4,7 @@
 <style type="text/css">
 	html, body {height: 100%;}
 	body { 
-		background: url('{{ File::exists('assets/images/logo-user.png') ? asset('assets/images/logo-user.png') : asset('assets/images/logo-default.png') }}') no-repeat fixed center;
+		background: url('{{ get_logo() }}') no-repeat fixed center;
 	}
 	.panel { 
 		background: rgba(255, 255, 255, 0.91);

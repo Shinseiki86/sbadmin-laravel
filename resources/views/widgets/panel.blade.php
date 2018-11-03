@@ -4,9 +4,9 @@
 			<h3 class="panel-title">@yield ($as . '_panel_title')
 				@if( isset($controls) )  
 				<div class="panel-control pull-right">
-					<a class="panelButton"><i class="fa fa-refresh"></i></a>
-					<a class="panelButton"><i class="fa fa-minus"></i></a>
-					<a class="panelButton"><i class="fa fa-remove"></i></a>
+					<a class="panelButton"><i class="fas fa-refresh"></i></a>
+					<a class="panelButton"><i class="fas fa-minus"></i></a>
+					<a class="panelButton"><i class="fas fa-remove"></i></a>
 				</div>
 				@endif
 			</h3>

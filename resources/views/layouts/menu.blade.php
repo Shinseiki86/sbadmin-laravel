@@ -13,18 +13,17 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">@yield('page_heading')</h1>
+					<h1 class="page-header">@yield('page_heading', 'Bienvenido!')</h1>
 				</div>
 			</div>
 
 			<div class="row">
 				@include('widgets/flash-alert')
-				@yield('section')
+				@yield('section', '')
 			</div>
 			
 		</div><!-- /#page-wrapper -->
 
 	</div><!-- /.wrapper -->
 
-@stop
-
+@endsection

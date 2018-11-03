@@ -8,7 +8,7 @@
 	@rinclude('form-inputs')
 
 	<!-- Botones -->
-	@include('widgets.forms.buttons', ['url' => 'auth/roles'])
+	@include('widgets.forms.buttons', ['url' => 'auth/permisos'])
 
 {{ Form::close() }}
 @endsection

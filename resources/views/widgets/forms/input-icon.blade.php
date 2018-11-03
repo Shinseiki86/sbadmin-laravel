@@ -1,13 +1,13 @@
 @push('head')
-	{!! Html::style('assets/stylesheets/fontawesome-iconpicker.min.css') !!}
+	{!! Html::style('css/font-awesome/fontawesome-iconpicker.min.css') !!}
 @endpush
 
 @push('scripts')
-	{!! Html::script('assets/scripts/fontawesome-iconpicker.min.js') !!}
+	{!! Html::script('js/font-awesome/fontawesome-iconpicker.min.js') !!}
 	<script type="text/javascript">
 		var inputIcon = $('.icp');
 		if(inputIcon.val()==''){
-			inputIcon.val('fa-commenting-o');
+			inputIcon.val('fas fa-comment-alt');
 		}
 		inputIcon.iconpicker();
 		

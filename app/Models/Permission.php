@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Models;
 
-use Zizaco\Entrust\EntrustPermission;
 use App\Traits\ModelRulesTrait;
 //use App\Traits\SoftDeletesTrait;
 use App\Traits\RelationshipsTrait;
+use Zizaco\Entrust\EntrustPermission;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Permission extends EntrustPermission
 {
+    //use RelationshipsTrait, ModelRulesTrait, \OwenIt\Auditing\Auditable;
     use RelationshipsTrait, ModelRulesTrait;
 
 	/**
@@ -23,7 +26,7 @@ class Permission extends EntrustPermission
 
 	public static function rules($id = 0){
 		return [
-			'name' => 'required|max:15|'.static::unique($id,'name'),
+			'name' => 'required|max:50|'.static::unique($id,'name'),
 			'display_name' => 'required|max:50|'.static::unique($id,'display_name'),
 			'description'  => ['required','max:100'],
 		];
@@ -34,4 +37,11 @@ class Permission extends EntrustPermission
 	public function roles(){
 		return $this->belongsToMany(Role::class);
 	}
+
+	public function menu()
+	{
+		$foreingKey = 'PERM_ID';
+		return $this->hasOne(Menu::class, $foreingKey);
+	}
+
 }

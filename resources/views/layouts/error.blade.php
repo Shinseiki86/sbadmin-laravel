@@ -21,5 +21,3 @@
 		}
 	</style>
 @endpush
-
-@section('section')

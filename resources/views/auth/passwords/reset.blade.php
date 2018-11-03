@@ -4,12 +4,13 @@
 <style type="text/css">
 	html, body {height: 100%;}
 	body { 
-		background: url('{{ File::exists('assets/images/logo-user.png') ? asset('assets/images/logo-user.png') : asset('assets/images/logo-default.png') }}') no-repeat fixed center;
+		background: url('{{ get_logo() }}') no-repeat fixed center;
 	}
 	.panel { 
 		background: rgba(255, 255, 255, 0.91);
 	}
 	.container {
+		margin-top: 0px !important;
 		height: 100%;
 		width: 100%;
 		display: table;
@@ -46,10 +47,10 @@
 						<div class="form-group">
 							<div class="col-xs-8 col-xs-offset-4 text-right">
 								<a class="btn btn-warning" role="button" href="{{ URL::previous() }}" data-tooltip="tooltip" title="Regresar">
-									<i class="fa fa-arrow-left" aria-hidden="true"></i>
+									<i class="fas fa-arrow-left" aria-hidden="true"></i>
 								</a>
 								<button type="submit" class="btn btn-primary">
-									<i class="fa fa-refresh"></i> Cambiar Contraseña
+									<i class="fas fa-refresh"></i> Cambiar Contraseña
 								</button>
 							</div>
 						</div>

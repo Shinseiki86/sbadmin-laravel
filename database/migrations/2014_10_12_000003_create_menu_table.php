@@ -32,6 +32,9 @@ class CreateMenuTable extends Migration
                     ->comment('Item puede estar ubicado en la barra superior (TOP) o en la barra lateral (LEFT)');
             $table->boolean('MENU_ENABLED')->default(true)->comment('');
 
+            $table->unsignedInteger('PERM_ID')->nullable()
+                    ->comment('Llave foranea con permissions. Determina si el menú es visible para el usuario.');
+
             //Traza
             $table->string('MENU_CREADOPOR')
                 ->comment('Usuario que creó el registro en la tabla');
@@ -45,6 +48,12 @@ class CreateMenuTable extends Migration
                 ->comment('Usuario que eliminó el registro en la tabla.');
             $table->timestamp('MENU_FECHAELIMINADO')->nullable()
                 ->comment('Fecha en que se eliminó el registro en la tabla.');
+
+            //Relación con tabla permissions
+            $table->foreign('PERM_ID')
+                ->references('id')
+                ->on('permissions');
+
         });
         
         if(env('DB_CONNECTION') == 'pgsql')

@@ -7,7 +7,7 @@
 		@foreach(Session::get('alert-info') as $msg)
 		<div class="alert alert-info alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong><i class="fa fa-info-circle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
+			<strong><i class="fas fa-info-circle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ $msg }}
 		</div>
 		@endforeach
@@ -17,7 +17,7 @@
 		@foreach(Session::get('alert-success') as $msg)
 		<div class="alert alert-success alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong><i class="fa fa-check fa-2x fa-pull-left" aria-hidden="true"></i></strong>
+			<strong><i class="fas fa-check fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ $msg }}
 		</div>
 		@endforeach
@@ -28,7 +28,7 @@
 		<div class="alert alert-warning alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong>
-				<i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i>
+				<i class="fas fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i>
 				{{ $msg }}
 			</strong>
 		</div>
@@ -40,7 +40,7 @@
 		<div class="alert alert-danger alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong>
-				<i class="fa fa-exclamation-circle fa-2x fa-pull-left" aria-hidden="true"></i>
+				<i class="fas fa-exclamation-circle fa-2x fa-pull-left" aria-hidden="true"></i>
 				{{ $msg }}
 			</strong>
 		</div>
@@ -61,7 +61,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-xs-2">
-						<i class="fa fa-3x fa-fw"></i>
+						<i class="fas fa-3x fa-fw"></i>
 					</div>
 					<div class="col-xs-10">
 						<h4 id="message"></h4>
@@ -71,7 +71,7 @@
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-xs btn-success" data-dismiss="modal">
-					<i class="fa fa-times" aria-hidden="true"></i> OK
+					<i class="fas fa-times" aria-hidden="true"></i> OK
 				</button>
 			</div>
 		</div>

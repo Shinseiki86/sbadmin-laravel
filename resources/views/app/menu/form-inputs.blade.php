@@ -1,5 +1,5 @@
-{{-- @include('datepicker') --}}
-@include('select2')
+{{-- @include('widgets.datepicker') --}}
+@include('widgets.select2')
 <div class='col-md-8 col-md-offset-2'>
 	
 	@include('widgets.forms.input', ['type'=>'text', 'column'=>8, 'name'=>'MENU_LABEL', 'label'=>'Label', 'options'=>['maxlength' => '20'] ])

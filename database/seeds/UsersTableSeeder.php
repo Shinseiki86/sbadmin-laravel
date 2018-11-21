@@ -103,11 +103,11 @@ use App\Models\Permission;
                 $this->createPermissions(Permission::class, 'permisos', null, true, false);
                 $this->createPermissions(Role::class, 'roles', null, true, false);
 
-                /*
+
                 $this->createPermissions(Pais::class, 'países', null, true, false);
                 $this->createPermissions(Departamento::class, 'departamentos', null, true, false);
                 $this->createPermissions(Ciudad::class, 'ciudades', null, true, false);
-                */
+
 
                 //$this->createPermissions(Prospecto::class, 'hojas de vida');
                 
@@ -177,7 +177,7 @@ use App\Models\Permission;
                 $ejecutivo->attachRole($rolEjecutivo);
 
                 //5 usuarios faker
-                //$users = factory(SGH\User::class)->times(5)->create();
+                //$users = factory(App\User::class)->times(5)->create();
 
 		}
 

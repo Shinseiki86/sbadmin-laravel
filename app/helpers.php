@@ -144,7 +144,7 @@ if (! function_exists('get_model')) {
      * @return string 
      */
     function get_model($name_model) {
-        //$class = class_exists($class) ? $class : '\\SGH\\Models\\'.basename($class);
+        //$class = class_exists($class) ? $class : '\\App\\Models\\'.basename($class);
         return class_exists($name_model) ? $name_model : '\\App\\Models\\'.last(explode('\\',basename($name_model)));
     }
 }
@@ -243,12 +243,7 @@ if (! function_exists('flash_alert')) {
      * @return void
      */
     function flash_alert( $msg, $type = 'info' ) {
-        //if(session()->has('alert-'.$type)){
-        //    $msg = session()->get('alert-'.$type) + [$msg];
-        //} else {
-        $msg = [$msg];
-        //}
-        session()->flash('alert-'.$type, $msg);
+        session()->flash('alert-'.$type, [$msg]);
     }
 }
 

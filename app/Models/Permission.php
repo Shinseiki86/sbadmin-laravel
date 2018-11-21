@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use App\Traits\ModelRulesTrait;
-//use App\Traits\SoftDeletesTrait;
 use App\Traits\RelationshipsTrait;
 use Zizaco\Entrust\EntrustPermission;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Permission extends EntrustPermission
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+
+class Permission extends EntrustPermission implements AuditableContract
 {
-    //use RelationshipsTrait, ModelRulesTrait, \OwenIt\Auditing\Auditable;
-    use RelationshipsTrait, ModelRulesTrait;
+    use AuditableTrait, RelationshipsTrait, ModelRulesTrait;
 
 	/**
 	 * The attributes that are mass assignable.

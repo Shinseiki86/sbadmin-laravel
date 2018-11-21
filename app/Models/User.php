@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ModelRulesTrait;
 use App\Traits\RelationshipsTrait;
 
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements AuditableContract
 {
-    use Notifiable, EntrustUserTrait, RelationshipsTrait, AuditableTrait;
+    use Notifiable, EntrustUserTrait, AuditableTrait, ModelRulesTrait, RelationshipsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -61,20 +62,14 @@ class User extends Authenticatable implements AuditableContract
     public static function rules($id = 0){
         return [
             'name'      => 'required|max:255',
-            'username'  => ['required','max:15',static::unique($id,'username')],
             'cedula'    => ['required','max:15',static::unique($id,'cedula')],
             'email'     => ['required','email','max:320',static::unique($id,'email')],
+            'username'  => $id!=0 ? '' : ['required','max:15',static::unique($id,'username')],
             'roles_ids' => 'required|array',
-            'password'  => 'required|min:6|confirmed',
+            'password'  => $id!=0 ? '' : 'required|min:6|confirmed',
         ];
     }
 
-    protected static function unique($id, $column, $table = null){
-        $instance = new static;
-        if(!isset($table))
-            $table = $instance->table;
-        return 'unique:'.$table.','.$column.','.$id.','.$instance->getKeyName();
-    }
 
     //establecemos las relaciones con el modelo Role, ya que un usuario puede tener varios roles
     //y un rol lo pueden tener varios usuarios

@@ -31,6 +31,9 @@
 	</head>
 
 	<body class="sidebar-closed">
+
+		@include('widgets.flash-alert')
+		
 		@yield('body')
 
 		{!! Html::script('js/jquery/jquery.min.js') !!}

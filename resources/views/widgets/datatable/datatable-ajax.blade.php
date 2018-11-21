@@ -11,7 +11,7 @@
 			ajax: '{{$urlAjax}}',
 			columns: [
 			@foreach($columns as $col)
-				{data:'{{$col}}'},
+				{data:'{{ array_last(explode('.', $col)) }}', name:'{{$col}}'},
 			@endforeach
 				{data:'action', orderable: false, searchable: false}
 			],

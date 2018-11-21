@@ -44,14 +44,8 @@ class LoginController extends Controller
             'getLogout',
             'showLoginForm',
         ];
-
         //Requiere que el usuario inicie sesión, excepto en la vista logout.
         $this->middleware('auth', [ 'except' => $arrActionsLogin ]);
-
-        $this->middleware('permission:user-index',  ['only' => ['index']]);
-        $this->middleware('permission:user-create', ['only' => ['showRegistrationForm','register']]);
-        $this->middleware('permission:user-edit',   ['only' => ['edit', 'update']]);
-        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -90,5 +84,23 @@ class LoginController extends Controller
     {
         //Se crea arreglo en session con los items del menú disponibles
         MenuController::refreshMenu();
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        //Se elimina arreglo en session con los items del menú disponibles
+        MenuController::destroyMenu();
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect('/');
     }
 }

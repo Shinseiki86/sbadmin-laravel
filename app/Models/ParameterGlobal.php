@@ -1,8 +1,8 @@
 <?php
 
-namespace SGH\Models;
+namespace App\Models;
 
-use SGH\Models\ModelWithSoftDeletes;
+use App\Models\ModelWithSoftDeletes;
 
 class ParametroGeneral extends ModelWithSoftDeletes
 {

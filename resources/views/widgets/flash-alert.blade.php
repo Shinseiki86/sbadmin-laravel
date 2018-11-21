@@ -93,7 +93,7 @@
 			$(function() {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{!!Session::get('modal-message')!!}');
-				modal.find('.fa').addClass('fa-info-circle');
+				modal.find('.fas').addClass('fa-info-circle');
 				modal.find('.modal-content')
 					.addClass('panel-info')
 					.find('.modal-title').text('Información');
@@ -104,7 +104,7 @@
 			$(function() {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{!!Session::get('modal-message')!!}');
-				modal.find('.fa').addClass('fa-check');
+				modal.find('.fas').addClass('fa-check');
 				modal.find('.modal-content')
 					.addClass('panel-success')
 					.find('.modal-title').text('¡Operación exitosa!');
@@ -115,7 +115,7 @@
 			$(function() {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{!!Session::get('modal-warning')!!}');
-				modal.find('.fa').addClass('fa-exclamation-triangle');
+				modal.find('.fas').addClass('fa-exclamation-triangle');
 				modal.find('.modal-content')
 					.addClass('panel-warning')
 					.find('.modal-title').text('¡Advertencia!');
@@ -126,7 +126,7 @@
 			$(function() {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{!!Session::get('modal-danger')!!}');
-				modal.find('.fa').addClass('fa-exclamation-circle');
+				modal.find('.fas').addClass('fa-exclamation-circle');
 				modal.find('.modal-content')
 					.addClass('panel-danger')
 					.find('.modal-title').text('¡Error!');

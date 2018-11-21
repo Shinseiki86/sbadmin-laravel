@@ -43,7 +43,14 @@
                         <li><a href="{{ url('app/parameters') }}"><i class="fas fa-user fa-fw"></i> Parametrizar {{ Auth::user()->username }}</a></li>
                         <li><a href="{{ url('password/reset') }}"><i class="fas fa-key fa-fw"></i> Cambiar contraseña</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ url('logout') }}"><i class="fas fa-sign-out-alt fa-fw"></i> Logout</a></li>
+                        <li>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt fa-fw"></i> Logout
+                            </a>
+
+                            {{ Form::open(['route'=>'logout', 'id'=>'logout-form', 'style'=>'display: none']) }}
+                            {{ Form::close() }}
+                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>

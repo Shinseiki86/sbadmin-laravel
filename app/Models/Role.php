@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Zizaco\Entrust\EntrustRole;
 use App\Traits\ModelRulesTrait;
-//use App\Traits\SoftDeletesTrait;
 use App\Traits\RelationshipsTrait;
 
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -12,8 +11,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Role extends EntrustRole implements AuditableContract
 {
-    use RelationshipsTrait, ModelRulesTrait, AuditableTrait;
-    //use SoftDeletesTrait;
+    use AuditableTrait, RelationshipsTrait, ModelRulesTrait;
+    
 	/**
 	 * The attributes that are mass assignable.
 	 *

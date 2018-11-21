@@ -13,7 +13,7 @@ trait ModelRulesTrait
     protected static function unique($rowIgnore, $column, $table = null){
         $instance = new static;
         if(!isset($table))
-            $table = $instance->table;
+            $table = $instance->getTable();
         return 'unique:'.$table.','.$column.','.$rowIgnore.','.$instance->getKeyName();
     }
 
@@ -28,7 +28,7 @@ trait ModelRulesTrait
         if(!empty($columns)){
 	        $instance = new static;
 	        if(!isset($table))
-	            $table = $instance->table;
+	            $table = $instance->getTable();
         	return 'unique_with:'.$table.','.implode(',',$columns).','.$rowIgnore.'='.$instance->getKeyName();
         }
     }

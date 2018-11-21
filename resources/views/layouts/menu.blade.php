@@ -18,7 +18,6 @@
 			</div>
 
 			<div class="row">
-				@include('widgets/flash-alert')
 				@yield('section', '')
 			</div>
 			

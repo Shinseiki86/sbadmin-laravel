@@ -115,7 +115,7 @@ class MenuController extends Controller
 	{
 		$arrRoutes = ['#'=>'#'];
 		foreach (Route::getRoutes() as $value) {
-			$uri = $value->getPath();
+			$uri = $value->uri();
 			if(ends_with($uri, 'create')){
 				$uri = str_replace('/create', '', $uri);
 				$arrRoutes[$uri] = $uri;

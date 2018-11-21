@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -36,4 +36,44 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+
+
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        flash_alert( '¡Contraseña modificada para '.$user->username.'!', 'success' );
+
+        event(new PasswordReset($user));
+
+        //$this->guard()->login($user);
+    }
+
+
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetResponse($response)
+    {
+        if( auth()->check() && \Entrust::hasRole('admin') )
+            return redirect('auth/usuarios')->with('status', trans($response));
+        else
+            return redirect($this->redirectPath())->with('status', trans($response));
+    }
+
 }

@@ -1,5 +1,5 @@
-{{--@include('datepicker')--}}
-@include('select2')
+{{--@include('widgets.datepicker')--}}
+@include('widgets.select2')
 
 @include('widgets.forms.input', ['type'=>'text', 'name'=>'name', 'label'=>'Nombre interno', 'options'=>['maxlength' => '50'] ])
 

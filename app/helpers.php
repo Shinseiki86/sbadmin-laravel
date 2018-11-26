@@ -17,8 +17,7 @@ use Carbon\Carbon;
 
 if (! function_exists('expression_concat')) {
     /**
-     * Crea un array con la llave primaria y una columna a partir de un Model.
-     * Se utiliza para contruir <select> en los views.
+     * Construye una expresión sql para concatenar columnas.
      *
      * @param  string|Model  $class
      * @param  string  $column
@@ -49,8 +48,7 @@ if (! function_exists('expression_concat')) {
 
 if (! function_exists('expression_count')) {
     /**
-     * Crea un array con la llave primaria y una columna a partir de un Model.
-     * Se utiliza para contruir <select> en los views.
+     * Construye una expresión sql para contar registros en una columna.
      *
      * @param  string|Model  $class
      * @param  string  $column

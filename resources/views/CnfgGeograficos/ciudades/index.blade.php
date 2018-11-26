@@ -19,7 +19,6 @@
 	<table class="table table-striped" id="tabla">
 		<thead>
 			<tr>
-				<th class="hidden-xs col-md-1">id</th>
 				<th class="col-md-1">Código</th>
 				<th class="col-md-4 all">Nombre</th>
 				<th class="col-md-1">Cod Dpto</th>
@@ -33,7 +32,6 @@
 
 	@include('widgets.modals.modal-delete')
 	@include('widgets.datatable.datatable-ajax', ['urlAjax'=>'getCiudades', 'columns'=>[
-		'CIUD_ID',
 		'CIUD_CODIGO',
 		'CIUD_NOMBRE',
 		'DEPARTAMENTOS.DEPA_CODIGO',

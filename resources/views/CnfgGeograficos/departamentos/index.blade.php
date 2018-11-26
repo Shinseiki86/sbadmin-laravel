@@ -19,12 +19,12 @@
 	<table class="table table-striped" id="tabla">
 		<thead>
 			<tr>
-				<th class="col-md-1">Código</th>
-				<th class="col-md-3">Nombre</th>
-				<th class="col-md-3">País</th>
-				<th class="col-md-1">Ciudades</th>
+				<th class="hidden-xs col-md-1">Código</th>
+				<th class="col-xs-3">Nombre</th>
+				<th class="col-xs-3">País</th>
+				<th class="col-xs-1 notFilter">Ciudades</th>
 				<th class="hidden-xs col-md-1">Creado</th>
-				<th class="col-md-1 all notFilter"></th>
+				<th class="col-xs-1 all notFilter"></th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -34,7 +34,7 @@
 	@include('widgets.datatable.datatable-ajax', ['urlAjax'=>'getDepartamentos', 'columns'=>[
 		'DEPA_CODIGO',
 		'DEPA_NOMBRE',
-		'PAIS.PAIS_NOMBRE',
+		'PAISES.PAIS_NOMBRE',
 		'count_ciudades',
 		'DEPA_CREADOPOR',
 	]])	

@@ -36,7 +36,7 @@ class CiudadController extends Controller
 	public function getData()
 	{
 		$model = new $this->class;
-		$query = Ciudad::leftJoin('DEPARTAMENTOS', 'DEPARTAMENTOS.DEPA_ID', '=', 'CIUDADES.DEPA_ID')
+		$query = Ciudad::leftJoin('DEPARTAMENTOS', 'DEPARTAMENTOS.DEPA_ID', 'CIUDADES.DEPA_ID')
 						->select([
 							'CIUD_ID',
 							'CIUD_CODIGO',

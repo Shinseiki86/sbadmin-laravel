@@ -11,7 +11,8 @@
 			ajax: '{{$urlAjax}}',
 			columns: [
 			@foreach($columns as $col)
-				{data:'{{ array_last(explode('.', $col)) }}', name:'{{$col}}'},
+				// ctype_upper permite excluir la columna que tenga minúsculas para no realizar búsquedas
+				{ data:'{{ array_last(explode('.', $col)) }}', name:'{{$col}}', searchable: {{ctype_upper(str_replace('_','',$col))?'true':'false'}} },
 			@endforeach
 				{data:'action', orderable: false, searchable: false}
 			],

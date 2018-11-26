@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Reportes;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use \Carbon\Carbon;
 
 use App\Models\Audit;
@@ -14,7 +14,11 @@ class RptAuditoriasController extends ReporteController
 		parent::__construct();
 	}
 
-
+	/**
+	 * Query base para la construcción de nuevos reportes.
+	 *
+	 * @return QueryBuilder
+	 */
 	private function getQuery()
 	{
 
@@ -37,21 +41,23 @@ class RptAuditoriasController extends ReporteController
 		return $query;
 	}
 
+
 	/**
-	 * 
+	 * Nuevo reporte usando el query base.
 	 *
 	 * @return Json
 	 */
 	public function logsAuditoria()
 	{
-		$query = $this->getQuery();
+		$instance = new static;
+		$query = $instance->getQuery();
 
-		if(isset($this->data['fchaDesde']))
-			$query->whereDate('audits.created_at', '>=', Carbon::parse($this->data['fchaDesde']));
-		if(isset($this->data['fchaHasta']))
-			$query->whereDate('audits.created_at', '<=', Carbon::parse($this->data['fchaHasta']));
+		if(isset($instance->data['fchaDesde']))
+			$query->whereDate('audits.created_at', '>=', Carbon::parse($instance->data['fchaDesde']));
+		if(isset($instance->data['fchaHasta']))
+			$query->whereDate('audits.created_at', '<=', Carbon::parse($instance->data['fchaHasta']));
 
-		return $this->buildJson($query, $columnChart='EVENT');
+		return $instance->buildJson($query, $columnChart='EVENT');
 	}
 
 

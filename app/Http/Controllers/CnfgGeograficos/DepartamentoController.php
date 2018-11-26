@@ -37,8 +37,14 @@ class DepartamentoController extends Controller
 	public function getData()
 	{
 		$model = new $this->class;
-		$query = Departamento::join('PAISES', 'PAISES.PAIS_ID', '=', 'DEPARTAMENTOS.PAIS_ID')
-						->select(['DEPA_ID','DEPA_CODIGO','DEPA_NOMBRE','PAIS_NOMBRE','DEPA_CREADOPOR']);
+		$query = Departamento::leftJoin('PAISES', 'PAISES.PAIS_ID', 'DEPARTAMENTOS.PAIS_ID')
+						->select([
+							'DEPA_ID',
+							'DEPA_CODIGO',
+							'DEPA_NOMBRE',
+							'PAISES.PAIS_NOMBRE',
+							'DEPA_CREADOPOR'
+						]);
 
 		return Datatables::eloquent($query)
 			->addColumn('action', function($row) use ($model) {

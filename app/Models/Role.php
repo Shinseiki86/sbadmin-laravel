@@ -52,5 +52,14 @@ class Role extends EntrustRole implements AuditableContract
 	public function permissions(){
 		return $this->belongsToMany(Permission::class);
 	}
+	
+    /**
+     * Relations with reports
+     * 
+     * @return Collection
+     */
+    public function reports(){
+        return $this->belongsToMany(Report::class);
+    }
 
 }

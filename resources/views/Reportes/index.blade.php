@@ -17,63 +17,67 @@
 
 @section('section')
 
-	@include('widgets.forms.input', ['type'=>'select', 'column'=>10, 'name'=>'REPO_ID', 'label'=>'Seleccionar reporte', 'data'=>array_pluck($arrReportes, 'title', 'id')])
+	@include('widgets.forms.input', ['type'=>'select', 'column'=>10, 'name'=>'REPO_ID', 'label'=>'Seleccionar reporte', 'data'=>array_pluck($arrReportes, 'display', 'route')])
 
-		<div class="col-xs-2 hide" style="margin-top: 25px;">
-			<button type="button" id="btnViewForm" class="btn btn-link pull-right">
-				<span class="fa fa-caret-down iconBtn"></span>
-				<span class="textBtn">Filtros</span>
-			</button>
-		</div>
-
-		{{ Form::open(['url' => '#', 'id'=>'formRep', 'class'=>'form-horizontal hide']) }}
-			<div class="col-xs-12" >
-				<div id="fieldsForm" class="hide">Filtros</div>
-				@rinclude('formRepBotones')
-			</div>
-		{{ Form::close() }}
-
-
-<div class="col-xs-12">
-	<div id="tabsReport" class="hide">
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tabTable" data-toggle="tab">Reporte</a></li>
-			<li><a href="#tabGraf" data-toggle="tab">Gráfico</a></li>
-			<div class="ctrlChart hide">
-				<div class="col-xs-4 col-sm-5">
-					{{ Form::select('columnChart', [''=>''], null, [
-						'id'=>'columnChart',
-						'class'=>'form-control selectpicker',
-						'data-allow-clear'=>'true',
-						'data-placeholder'=>'Seleccione una columna',
-					])}}
-				</div>
-				<div class="col-xs-3 col-sm-2" >
-					{{ Form::select('typeChart', ['bar'=>'Barras','pie'=>'Torta'], 'bar', [
-						'id'=>'typeChart',
-						'class'=>'form-control',
-					])}}
-				</div>
-			</div>
-		</ul>
-
-		<div class="tab-content">
-			<div class="tab-pane active" id="tabTable">
-				<table id="tbQuery" class="table table-striped">
-					<thead><tr><th></th></tr></thead>
-					<tbody><tr><td></td></tr></tbody>
-				</table>        	
-			</div>
-			<div class="tab-pane" id="tabGraf">
-				<canvas class="canvas-chart" id="chart"></canvas>
-			</div>
-		</div>
+	<div class="col-xs-2 hide" style="margin-top: 25px;">
+		<button type="button" id="btnViewForm" class="btn btn-link pull-right">
+			<span class="fa fa-caret-down iconBtn"></span>
+			<span class="textBtn">Filtros</span>
+		</button>
 	</div>
 
-	<code id="err" class="hide"></code>
-</div>
+	{{ Form::open(['url' => 'getData/', 'id'=>'formRep', 'class'=>'form-horizontal hide']) }}
+		<div class="col-xs-12" >
+			<div id="fieldsForm" class="hide">Filtros</div>
+			@rinclude('index-botones')
+		</div>
+	{{ Form::close() }}
+
+
+	{{-- REPORTE --}}
+	<div class="col-xs-12">
+		<div id="tabsReport" class="hide">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tabTable" data-toggle="tab">Reporte</a></li>
+				<li><a href="#tabGraf" data-toggle="tab">Gráfico</a></li>
+				<div class="ctrlChart hide">
+					<div class="col-xs-4 col-sm-5">
+						{{ Form::select('columnChart', [''=>''], null, [
+							'id'=>'columnChart',
+							'class'=>'form-control selectpicker',
+							'data-allow-clear'=>'true',
+							'data-placeholder'=>'Seleccione una columna',
+						])}}
+					</div>
+					<div class="col-xs-3 col-sm-2" >
+						{{ Form::select('typeChart', ['bar'=>'Barras','pie'=>'Torta'], 'bar', [
+							'id'=>'typeChart',
+							'class'=>'form-control',
+						])}}
+					</div>
+				</div>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane active" id="tabTable">
+					<table id="tbQuery" class="table table-striped">
+						<thead><tr><th></th></tr></thead>
+						<tbody><tr><td></td></tr></tbody>
+					</table>        	
+				</div>
+				<div class="tab-pane" id="tabGraf">
+					<canvas class="canvas-chart" id="chart" style="height:350px;"></canvas>
+				</div>
+			</div>
+		</div>
+
+		<code id="err" class="hide"></code>
+	</div>
 
 @endsection
+
+
+
 
 @push('scripts')
 	{!! Html::script('js/chart.js/Chart.min.js') !!}
@@ -86,7 +90,7 @@
 		var formRep = $('#formRep');
 		var btnViewForm = $('#btnViewForm');
 		var fieldsForm = $('#fieldsForm');
-		var filterRequired = {!!json_encode(array_column($arrReportes, 'filterRequired', 'id'), JSON_NUMERIC_CHECK) !!};
+		var filterRequired = {!!json_encode(array_column($arrReportes, 'filter_required', 'id'), JSON_NUMERIC_CHECK) !!};
 
 		var dataJson = null;
 
@@ -119,7 +123,7 @@
 				$(document).attr('title', 'SGH / Rep '+$(this).find(':selected').text());
 
 				formRep
-					.attr('action', 'reportes/'+id_selected)
+					.attr('action', 'reportes/getData/'+id_selected)
 					.removeClass('hide');
 
 				//Si el formulario tiene filtros obligatorios, muestra campos de filtro y no permite ocultarlos.
@@ -201,9 +205,9 @@
 			var url = formRep.attr('action');
 
 			$.ajax({
-				type: 'POST',
-				url: url,
-				data: formRep.serialize(),
+				type:     'POST',
+				url:      url.replace('_', '/'),
+				data:     formRep.serialize(),
 				dataType: 'json',
 			}).done(function( data, textStatus, jqXHR ) {
 				if ( data.data.length > 0 ){

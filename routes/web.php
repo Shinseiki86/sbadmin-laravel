@@ -62,8 +62,5 @@ Route::group(['prefix'=>'reportes', 'as'=>'Reportes.', 'namespace'=>'Reportes', 
 	Route::get('/', 'ReporteController@index');
 	Route::get('/viewForm', 'ReporteController@viewForm');
 	
-
-	Route::post('getData/{reporte}', 'ReporteController@getData');
-
-	//Route::post('LogsAuditorias', 'RptAuditoriasController@logsAuditoria');
+	Route::post('getData/{controller}/{action}', 'ReporteController@getData');
 });

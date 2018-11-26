@@ -71,8 +71,11 @@ class User extends Authenticatable implements AuditableContract
     }
 
 
-    //establecemos las relaciones con el modelo Role, ya que un usuario puede tener varios roles
-    //y un rol lo pueden tener varios usuarios
+    /**
+     * Relations with roles
+     * 
+     * @return Collection
+     */
     public function roles(){
         return $this->belongsToMany(Role::class);
     }

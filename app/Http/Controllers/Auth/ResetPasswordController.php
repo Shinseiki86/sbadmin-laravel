@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -34,12 +37,27 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        dump(\Entrust::hasRole('admin'));
-        //dump(\Entrust::user()->roles->first()->permissions);
-        dd(\Entrust::can('user-edit'));
         //$this->middleware('guest');
     }
 
+
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = \Hash::make($password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        event(new PasswordReset($user));
+        flash_alert( '¡Contraseña modificada para '.$user->username.'!', 'success' );
+        //$this->guard()->login($user);
+    }
 
 
     /**
@@ -50,8 +68,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse($response)
     {
-        dd(\Entrust::can('user-edit'));
-        flash_alert( '¡Contraseña modificada para '.$user->username.'!', 'success' );
         if( auth()->check() && \Entrust::hasRole('admin') )
             return redirect('auth/usuarios')->with('status', trans($response));
         else

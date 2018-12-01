@@ -45,9 +45,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:user-create', ['only' => ['showRegistrationForm','register']]);
-
         $this->middleware('permission:user-index',  ['only' => ['index']]);
+        $this->middleware('permission:user-create', ['only' => ['showRegistrationForm','register']]);
         $this->middleware('permission:user-edit',   ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }

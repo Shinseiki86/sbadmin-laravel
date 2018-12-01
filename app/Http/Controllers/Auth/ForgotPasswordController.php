@@ -46,46 +46,43 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         //Si no está autenticado y no llegó un token, redirige a recuperar por email.
-        if (auth()->guest() ){
-            //return redirect('password/reset');
+        if ( auth()->guest() ){
             return view( 'auth.passwords.email' );
-        } elseif( \Entrust::hasRole('admin') ){ //Si está autenticado con rol admin...
+        } else {
 
-            $user = Input::has('id') ? User::findOrFail(Input::get('id')) : auth()->user();
+            $user = (Input::has('id') and \Entrust::can('user-edit')) //Si usuario autenticado tiene permiso para editar usuarios...
+                    ? User::findOrFail(Input::get('id'))
+                    : auth()->user();
             $email = $user->email;
             $token = \Password::getRepository()->create( $user );
 
-            return view( 'auth.passwords.reset' )
-                    ->with( 'email', $email )
-                    ->with( 'token', $token );
+            return view( 'auth.passwords.reset' )->with(
+                ['token' => $token, 'email' => $email]
+            );
         }
-
-
     }
-
-
-    public function sendEmail($id){
-        $user = User::findOrFail($id);
-        $this->sendResetLinkEmail($user);
-    }
-
 
 
     /**
-     * Reset the given user's password.
+     * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function resetPassword($user, $password)
+    public function sendResetLinkEmail(Request $request)
     {
-        $user->forceFill([
-            'password' => bcrypt($password),
-            'remember_token' => Str::random(60),
-        ])->save();
+        $this->validateEmail($request);
 
-        flash_alert( '¡Contraseña modificada para '.$user->username.'!', 'success' );
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+        $response = $this->broker()->sendResetLink(
+            mb_strtoupper($request->only('email'))
+        );
+
+        return $response == Password::RESET_LINK_SENT
+                    ? $this->sendResetLinkResponse($response)
+                    : $this->sendResetLinkFailedResponse($request, $response);
     }
 
 
@@ -97,7 +94,6 @@ class ForgotPasswordController extends Controller
      */
     protected function getResetSuccessResponse($response)
     {
-        dd($response);
         if( auth()->check() && \Entrust::hasRole('admin') )
             return redirect('auth/usuarios')->with('status', trans($response));
         else

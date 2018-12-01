@@ -6,7 +6,7 @@
 <html lang="{{ app()->getLocale() }}" class="no-js">
 <!--<![endif]-->
 	<head>
-		<title>{{env('APP_NAME', 'APP_NAME')}} @yield('title')</title>
+		<title>{{config('app.name','MyApp')}} @yield('title')</title>
 		{!! Html::meta( null, 'IE=edge', [ 'http-equiv'=>'X-UA-Compatible' ] ) !!}
 		{!! Html::meta( null, 'text/html; charset=utf-8', [ 'http-equiv'=>'Content-Type' ] ) !!}
 
@@ -68,7 +68,7 @@
 
 		<footer class="footer {{ config('app.debug') ? 'navbar-custom2' : 'navbar-custom1'}} navbar-fixed-bottom">
 			<div class="text-right" style="color: #b9b9b9;padding-right:20px;">
-				<small>{{ config('app.name', 'APP_NAME') }}&copy; powered by <i>diheke</i></small>
+				<small>{{ config('app.name', 'MyApp') }}&copy; powered by <i>diheke</i></small>
 			</div>
 		</footer>
 	</body>

@@ -37,14 +37,6 @@ class MenuTableSeeder extends Seeder
 				'PERM_ID' => $this->getPermission('app-menu'),
 			]);
 			Menu::create([
-				'MENU_LABEL' => 'Parametrizaciones generales',
-				'MENU_URL' => 'app/parameters',
-				'MENU_ICON' => 'fas fa-cog',
-				'MENU_PARENT' => $parent->MENU_ID,
-				'MENU_ORDER' => $orderItem++,
-				'PERM_ID' => $this->getPermission('app-parameters'),
-		   ]);
-			Menu::create([
 				'MENU_LABEL' => 'Carga másiva',
 				'MENU_URL' => 'app/upload',
 				'MENU_ICON' => 'fas fa-cog',
@@ -54,11 +46,11 @@ class MenuTableSeeder extends Seeder
 			]);
 			Menu::create([
 				'MENU_LABEL' => 'Parametros del Sistema',
-				'MENU_URL' => 'app/parametrosgenerales',
+				'MENU_URL' => 'app/parametersglobal',
 				'MENU_ICON' => 'fas fa-bolt',
 				'MENU_PARENT' => $parent->MENU_ID,
 				'MENU_ORDER' => $orderItem++,
-				'PERM_ID' => $this->getPermission('app-parametrosgenerales'),
+				'PERM_ID' => $this->getPermission('app-parameterglobal'),
 			]);
 
 		$orderItem = 0;
@@ -136,9 +128,9 @@ class MenuTableSeeder extends Seeder
 		$parent = Menu::create([
 			'MENU_LABEL' => 'Reportes',
 			'MENU_ICON' => 'fas fa-filter',
-			'MENU_URL' => 'reportes',
+			'MENU_URL' => 'reports',
 			'MENU_ORDER' => $orderMenuLeft++,
-			'PERM_ID' => $this->getPermission('reportes'),
+			'PERM_ID' => $this->getPermission('report-index'),
 		]);
 
 

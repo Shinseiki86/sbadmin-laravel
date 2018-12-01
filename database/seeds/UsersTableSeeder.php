@@ -67,37 +67,31 @@ use App\Models\Permission;
                     'display_name' => 'Administrar menú',
                     'description'  => 'Permite crear, eliminar y ordenar el menú del sistema.',
                 ]);
-                $parameters = Permission::create([
-                    'name'         => 'app-parameters',
-                    'display_name' => 'Administrar parámetros',
-                    'description'  => 'Permite crear, eliminar y ordenar los parámetros del sistema.',
-                ]);
                 $uploads = Permission::create([
                     'name'         => 'app-upload',
                     'display_name' => 'Cargas masivas',
                     'description'  => '¡CUIDADO! Permite realizar cargas masivas de datos en el sistema.',
                 ]);
                 $parametersg = Permission::create([
-                    'name'         => 'app-parametersglobal',
+                    'name'         => 'app-parameterglobal',
                     'display_name' => 'Administrar parámetros generales del Sistema',
                     'description'  => 'Permite crear, eliminar y ordenar los parámetros generales del sistema.',
                 ]);
 
-                $this->rolOwner->attachPermissions([$menu, $parameters, $uploads]);
-                $this->rolAdmin->attachPermission($menu);
-                $this->rolAdmin->attachPermission($parametersg);
+                $this->rolOwner->attachPermissions([$menu, $parametersg, $uploads]);
+                $this->rolAdmin->attachPermissions([$menu, $parametersg]);
 
-                $reportes = Permission::create([
-                    'name'         => 'reportes',
+                $reports = Permission::create([
+                    'name'         => 'report-index',
                     'display_name' => 'Reportes',
                     'description'  => 'Permite ejecutar reportes y exportarlos.',
                 ]);
-                $this->rolOwner->attachPermission($reportes);
-                $this->rolAdmin->attachPermissions([$reportes,$uploads]);
-                $this->rolGestHum->attachPermission($reportes);
-                $rolEjecutivo->attachPermission($reportes);
-                $rolSuperOper->attachPermission($reportes);
-                $rolCoorOper->attachPermission($reportes);
+                $this->rolOwner->attachPermission($reports);
+                $this->rolAdmin->attachPermissions([$reports,$uploads]);
+                //$this->rolGestHum->attachPermission($reports);
+                $rolEjecutivo->attachPermission($reports);
+                $rolSuperOper->attachPermission($reports);
+                $rolCoorOper->attachPermission($reports);
 
                 $this->createPermissions(User::class, 'usuarios', null,  true, false);
                 $this->createPermissions(Permission::class, 'permisos', null, true, false);

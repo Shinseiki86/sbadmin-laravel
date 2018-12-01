@@ -1,19 +1,19 @@
 <?php
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Report;
 use App\Models\Role;
 
-class ReporteController extends Controller
+class ReportController extends Controller
 {
 	protected $data = null;
 
 	public function __construct()
 	{
 		$this->middleware('auth');
-		$this->middleware('permission:reportes');
+		$this->middleware('permission:report-index');
 		//Datos recibidos desde la vista.
 		$this->data = parent::getRequest();
 	}
@@ -26,7 +26,7 @@ class ReporteController extends Controller
 	public function index()
 	{
 		$roles = \Entrust::user()->roles;
-		$arrReportes = Report::join('report_role', 'report_role.report_id','reports.id')
+		$arrReports = Report::join('report_role', 'report_role.report_id','reports.id')
 						->where('enable',true)
 						->whereIn('report_role.role_id',$roles->pluck('id'))
 						->select([
@@ -34,7 +34,8 @@ class ReporteController extends Controller
 							expression_concat(['code','name'], 'display', ' - '),
 							expression_concat(['controller','action'], 'route', '_')
 						])->get()->toArray();
-		return view('reportes.index', compact('arrReportes'));
+						//dd($arrReports);
+		return view('reports.index', compact('arrReports'));
 	}
 
 	/**
@@ -44,8 +45,8 @@ class ReporteController extends Controller
 	 */
 	public function viewForm(Request $request)
 	{
-		$form = $request->input('form');
-		return response()->json(view('reportes.formRep'.$form)->render());
+		$form = explode('_', $request->input('form'));
+		return response()->json(view('reports.'.$form[0].'.formRep_'.$form[1])->render());
 	}
 
 
@@ -57,7 +58,7 @@ class ReporteController extends Controller
 	 */
 	public function getData($controller, $action)
 	{
-		$controller = '\App\Http\Controllers\Reportes\Rpt'.$controller.'Controller';
+		$controller = '\App\Http\Controllers\Report\Rpt'.$controller.'Controller';
 		$controler = new $controller;
 		return app($controller)->$action();
 	}

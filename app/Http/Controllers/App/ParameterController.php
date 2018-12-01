@@ -3,7 +3,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 
-class ParametersController extends Controller
+class ParameterController extends Controller
 {
 	protected $route = 'app.parameters';
 

@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Redirector;
 use App\Http\Controllers\Controller;
 
-use App\Models\ParametroGeneral;
+use App\Models\ParameterGlobal;
 
-class ParametroGeneralController extends Controller
+class ParameterGlobalController extends Controller
 {
-	protected $route = 'app.parametrosgenerales';
-	protected $class = ParametroGeneral::class;
+	protected $route = 'app.parametersglobal';
+	protected $class = ParameterGlobal::class;
 
 	public function __construct()
 	{
 		//parent::__construct();
 		$this->middleware('auth');
-		$this->middleware('permission:app-parametrosgenerales');
+		$this->middleware('permission:app-parameterglobal');
 	}
 
 	/**
@@ -32,9 +32,9 @@ class ParametroGeneralController extends Controller
 	public function index()
 	{
 		//Se obtienen todos los registros.
-		$parametrosgenerales = ParametroGeneral::all();
+		$parametersglobal = ParameterGlobal::all();
 		//Se carga la vista y se pasan los registros
-		return view($this->route.'.index', compact('parametrosgenerales'));
+		return view($this->route.'.index', compact('parametersglobal'));
 	}
 
 	/**
@@ -61,39 +61,39 @@ class ParametroGeneralController extends Controller
 	/**
 	 * Muestra el formulario para editar un registro en particular.
 	 *
-	 * @param  int  $PAGE_ID
+	 * @param  int  $PGLO_ID
 	 * @return Response
 	 */
-	public function edit($PAGE_ID)
+	public function edit($PGLO_ID)
 	{
 		// Se obtiene el registro
-		$parametrogeneral = ParametroGeneral::findOrFail($PAGE_ID);
+		$parameterglobal = ParameterGlobal::findOrFail($PGLO_ID);
 
 		// Muestra el formulario de edición y pasa el registro a editar
-		return view($this->route.'.edit', compact('parametrogeneral'));
+		return view($this->route.'.edit', compact('parameterglobal'));
 	}
 
 
 	/**
 	 * Actualiza un registro en la base de datos.
 	 *
-	 * @param  int  $PAGE_ID
+	 * @param  int  $PGLO_ID
 	 * @return Response
 	 */
-	public function update($PAGE_ID)
+	public function update($PGLO_ID)
 	{
-		parent::updateModel($PAGE_ID);
+		parent::updateModel($PGLO_ID);
 	}
 
 	/**
 	 * Elimina un registro de la base de datos.
 	 *
-	 * @param  int  $PAGE_ID
+	 * @param  int  $PGLO_ID
 	 * @return Response
 	 */
-	public function destroy($PAGE_ID)
+	public function destroy($PGLO_ID)
 	{
-		parent::destroyModel($PAGE_ID);
+		parent::destroyModel($PGLO_ID);
 	}
 	
 }

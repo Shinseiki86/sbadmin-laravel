@@ -1,10 +1,12 @@
 <?php
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Report;
+
 use App\Http\Controllers\Controller;
+use \Carbon\Carbon;
 
-use App\Models\Model;
+use App\Models\Audit;
 
-class RptXxxxxxController extends ReporteController
+class RptAuditController extends ReportController
 {
 
 	public function __construct()
@@ -12,16 +14,29 @@ class RptXxxxxxController extends ReporteController
 		parent::__construct();
 	}
 
-
 	/**
 	 * Query base para la construcción de nuevos reportes.
 	 *
-	 * @return Json
+	 * @return QueryBuilder
 	 */
 	private function getQuery()
 	{
 
-		$query = Model::all();
+		$query = Audit::join('users', 'users.id', '=', 'audits.user_id')
+			->select([
+				'audits.id as ID',
+				'users.username as USER',
+				'audits.event as EVENT',
+				'audits.auditable_id as AUDITABLE_ID',
+				'audits.auditable_type as AUDITABLE_TYPE',
+				'audits.old_values as OLD_VALUES',
+				'audits.new_values as NEW_VALUES',
+				'audits.url as URL',
+				'audits.ip_address as IP_ADDRESS',
+				'audits.user_agent as USER_AGENT',
+				'audits.created_at as CREATED_AT',
+				'audits.updated_at as UPDATED_AT',
+			]);
 
 		return $query;
 	}
@@ -32,7 +47,7 @@ class RptXxxxxxController extends ReporteController
 	 *
 	 * @return Json
 	 */
-	public function newReport()
+	public function logsAuditoria()
 	{
 		$instance = new static;
 		$query = $instance->getQuery();

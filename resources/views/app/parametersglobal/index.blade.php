@@ -9,7 +9,7 @@
 			Parametros Generales
 		</div>
 		<div id="btns-top" class="col-xs-4 col-md-6 col-lg-6 text-right">
-			<a class='btn btn-primary' role='button' href="{{ route('app.parametrosgenerales.create') }}" data-tooltip="tooltip" title="Crear Nuevo" name="create">
+			<a class='btn btn-primary' role='button' href="{{ route('app.parametersglobal.create') }}" data-tooltip="tooltip" title="Crear Nuevo" name="create">
 				<i class="fas fa-plus" aria-hidden="true"></i>
 			</a>
 		</div>
@@ -30,15 +30,15 @@
 		</thead>
 
 		<tbody>
-			@foreach($parametrosgenerales as $parametrogeneral)
+			@foreach($parametersglobal as $parameterglobal)
 			<tr>
-				<td>{{ $parametrogeneral -> PAGE_DESCRIPCION }}</td>
-				<td>{{ $parametrogeneral -> PAGE_VALOR }}</td>
-				<td>{{ $parametrogeneral -> PAGE_OBSERVACIONES }}</td>
-				<td>{{ $parametrogeneral -> PAGE_CREADOPOR }}</td>
+				<td>{{ $parameterglobal -> PGLO_DESCRIPCION }}</td>
+				<td>{{ $parameterglobal -> PGLO_VALOR }}</td>
+				<td>{{ $parameterglobal -> PGLO_OBSERVACIONES }}</td>
+				<td>{{ $parameterglobal -> PGLO_CREADOPOR }}</td>
 				<td>
 					<!-- Botón Editar (edit) -->
-					<a class="btn btn-small btn-info btn-xs" href="{{ route('app.parametrosgenerales.edit', [ 'PAGE_ID' => $parametrogeneral->PAGE_ID ] ) }}" data-tooltip="tooltip" title="Editar">
+					<a class="btn btn-small btn-info btn-xs" href="{{ route('app.parametersglobal.edit', [ 'PGLO_ID' => $parameterglobal->PGLO_ID ] ) }}" data-tooltip="tooltip" title="Editar">
 						<i class="fas fa-edit" aria-hidden="true"></i>
 					</a>
 
@@ -46,10 +46,10 @@
 					{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i>',[
 						'class'=>'btn btn-xs btn-danger btn-delete',
 						'data-toggle'=>'modal',
-						'data-id'=> $parametrogeneral->PAGE_ID,
-						'data-modelo'=> str_upperspace(class_basename($parametrogeneral)),
-						'data-descripcion'=> $parametrogeneral->PAGE_DESCRIPCION,
-						'data-action'=>'parametrosgenerales/'. $parametrogeneral->PAGE_ID,
+						'data-id'=> $parameterglobal->PGLO_ID,
+						'data-modelo'=> str_upperspace(class_basename($parameterglobal)),
+						'data-descripcion'=> $parameterglobal->PGLO_DESCRIPCION,
+						'data-action'=>'parametersglobal/'. $parameterglobal->PGLO_ID,
 						'data-target'=>'#pregModalDelete',
 						'data-tooltip'=>'tooltip',
 						'title'=>'Borrar',

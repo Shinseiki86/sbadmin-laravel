@@ -12,16 +12,16 @@
 */
 
 /*************  Routes del sistema  *************/
-//Autenticación
+// Authentication Routes...
 Auth::routes();
-Route::group(['prefix'=>'auth', 'as'=>'Auth.', 'namespace'=>'Auth'], function() {
+Route::get('password/email/{id}', 'Auth\ForgotPasswordController@sendEmail');
+Route::get('password/reset/{id}', 'Auth\ForgotPasswordController@showResetForm');
+
+Route::group(['prefix'=>'auth', 'as'=>'auth.', 'namespace'=>'Auth'], function() {
 	Route::resource('usuarios', 'RegisterController');
 	Route::resource('roles', 'RoleController');
 	Route::resource('permisos', 'PermissionController');
 });
-
-Route::get('password/email/{id}', 'Auth\ForgotPasswordController@sendEmail');
-Route::get('password/reset/{id}', 'Auth\ForgotPasswordController@showResetForm');
 
 Route::group(['middleware'=>'auth'], function() {
 	Route::get('/', function(){
@@ -32,15 +32,21 @@ Route::group(['middleware'=>'auth'], function() {
 	Route::get('getArrModel', 'Controller@ajax');
 });
 
-Route::group(['prefix'=>'app', 'as'=>'App.', 'namespace'=>'App'], function() {
+Route::group(['prefix'=>'app', 'as'=>'app.', 'namespace'=>'App'], function() {
 	Route::resource('menu', 'MenuController', ['parameters'=>['menu'=>'MENU_ID']]);
+	Route::resource('parametersglobal', 'ParameterGlobalController', ['parameters'=>['parametersglobal'=>'PGLO__ID']]);
 	Route::post('menu/reorder', 'MenuController@reorder')->name('menu.reorder');
-	Route::get('parameters', 'ParametersController@index')->name('parameters');
 	Route::get('upload', 'UploadDataController@index')->name('upload.index');
 	Route::post('upload', 'UploadDataController@upload')->name('upload');
-	Route::resource('parametrosgenerales', 'ParametroGeneralController');
 
 	Route::get('createFromAjax/{model}', 'ModelController@createFromAjax')->name('createFromAjax');
+});
+
+Route::group(['prefix'=>'reports', 'as'=>'reports.', 'namespace'=>'Report'], function() {
+	Route::get('/', 'ReportController@index');
+	Route::get('/viewForm', 'ReportController@viewForm');
+	
+	Route::post('getData/{controller}/{action}', 'ReportController@getData');
 });
 
 /*************  Fin Routes del sistema  *************/
@@ -56,11 +62,3 @@ Route::group(['prefix'=>'cnfg-geograficos', 'as'=>'CnfgGeograficos.', 'namespace
 });
 
 
-
-
-Route::group(['prefix'=>'reportes', 'as'=>'Reportes.', 'namespace'=>'Reportes', 'middleware'=>'auth'], function() {
-	Route::get('/', 'ReporteController@index');
-	Route::get('/viewForm', 'ReporteController@viewForm');
-	
-	Route::post('getData/{controller}/{action}', 'ReporteController@getData');
-});

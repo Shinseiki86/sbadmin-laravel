@@ -17,7 +17,7 @@
 
 @section('section')
 
-	@include('widgets.forms.input', ['type'=>'select', 'column'=>10, 'name'=>'REPO_ID', 'label'=>'Seleccionar reporte', 'data'=>array_pluck($arrReportes, 'display', 'route')])
+	@include('widgets.forms.input', ['type'=>'select', 'column'=>10, 'name'=>'REPO_ID', 'label'=>'Seleccionar reporte', 'data'=>array_pluck($arrReports, 'display', 'route')])
 
 	<div class="col-xs-2 hide" style="margin-top: 25px;">
 		<button type="button" id="btnViewForm" class="btn btn-link pull-right">
@@ -87,10 +87,11 @@
 
 	$(function () {
 
+		var nameApp = '{{config('app.name', 'MyApp')}}';
 		var formRep = $('#formRep');
 		var btnViewForm = $('#btnViewForm');
 		var fieldsForm = $('#fieldsForm');
-		var filterRequired = {!!json_encode(array_column($arrReportes, 'filter_required', 'id'), JSON_NUMERIC_CHECK) !!};
+		var filterRequired = {!!json_encode(array_column($arrReports, 'filter_required', 'id'), JSON_NUMERIC_CHECK) !!};
 
 		var dataJson = null;
 
@@ -120,10 +121,10 @@
 			var id_selected = $(this).val();
 			if(id_selected != null && id_selected != ''){
 				//título de ventana, afecta nombre de archivo exportado
-				$(document).attr('title', 'SGH / Rep '+$(this).find(':selected').text());
+				$(document).attr('title', nameApp+' / Rep '+$(this).find(':selected').text());
 
 				formRep
-					.attr('action', 'reportes/getData/'+id_selected)
+					.attr('action', 'reports/getData/'+id_selected)
 					.removeClass('hide');
 
 				//Si el formulario tiene filtros obligatorios, muestra campos de filtro y no permite ocultarlos.
@@ -143,7 +144,7 @@
 				//Ajax para obtener campos de filtro
 				$.ajax({
 					type: 'GET',
-					url: 'reportes/viewForm',
+					url: 'reports/viewForm',
 					data: {form: id_selected},
 					dataType: 'json',
 				}).done(function( data, textStatus, jqXHR ) {
@@ -176,7 +177,7 @@
 			} else {
 				formRep.addClass('hide'); //form
 				btnViewForm.parent().addClass('hide');
-				$(document).attr('title', 'SGH / Reportes');
+				$(document).attr('title', nameApp+' / Reportes');
 			}
 		});
 

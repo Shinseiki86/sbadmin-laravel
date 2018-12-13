@@ -12,7 +12,7 @@
 	{!! Html::script('js/importModelFromExcel.js') !!}
 	<script type="text/javascript">
 		$(function() {
-			initImportModelFromExcel('{{ route('createFromAjax',[$model]) }}', '{{ csrf_token() }}');
+			initImportModelFromExcel('{{ route('app.createFromAjax',[$model]) }}', '{{ csrf_token() }}');
 		})
 	</script>
 @endpush

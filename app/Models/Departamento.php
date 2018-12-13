@@ -10,6 +10,7 @@ class Departamento extends ModelWithSoftDeletes
 	//Nombre de la tabla en la base de datos
 	protected $table = 'DEPARTAMENTOS';
     protected $primaryKey = 'DEPA_ID';
+	protected $filterKey  = 'DEPA_NOMBRE';
 
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'DEPA_FECHACREADO';

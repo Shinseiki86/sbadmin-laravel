@@ -7,6 +7,10 @@
 			Departamentos
 		</div>
 		<div id="btns-top" class="col-xs-4 col-md-6 col-lg-6 text-right">
+
+			<!-- Importar registros por excel -->
+			@include('widgets.modals.modal-import', ['model'=>'Departamento'])
+
 			<a class='btn btn-primary' role='button' href="{{ route('CnfgGeograficos.departamentos.create') }}" data-tooltip="tooltip" title="Crear Nuevo" name="create">
 				<i class="fas fa-plus" aria-hidden="true"></i>
 			</a>

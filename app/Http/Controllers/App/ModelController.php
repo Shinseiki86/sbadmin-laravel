@@ -48,7 +48,6 @@ class ModelController extends Controller
 			);
 
 
-
 			//$this->saveRelationsBelongsTo($relationships);
 			//Los valores para las relaciones BelongsTo serán agregadas en el array principal, ya que si el campo es obligatorio generará error al realizarlo por ->associate(...)
 			$relsBelongsTo = array_filter($relationships, function ($val){
@@ -86,22 +85,23 @@ class ModelController extends Controller
 			//Si el usuario existen en los eliminados...
 			if( isset($model) ){
 				//Se restaura usuario y se actualiza
-				$msgRestored = '';
 				if($model->trashed()){
 					$model->restore();
-					$msgRestored = ' restaurado y';
+					$msg = ' restaurado y';
 				}
 				$model->update( $attr );
-				$msg = 'Usuario '.($model->$prefix.'ID').$msgRestored.' actualizado.';
+				$msg = $msg.' actualizado.';
 			} else {
 				//Sino, se crea usuario
 				$model = new $modelClass( $attr );
-				$msg = 'Usuario '.($model->$prefix.'ID').' creado.';
+				$msg = ' creado.';
 			}
 
 			//Para las relaciones HasMany y BelongsToMany...
 			$model->save();
 			$model = $this->saveRelationsHasMany($relations, $relationships, $model);
+
+			$msg = str_upperspace(class_basename($model)).' '.($model->{$prefix.'ID'}).$msg;
 
 			return response()->json([
 						'status' => 'OK',

@@ -10,6 +10,7 @@ use App\Models\User;
 
 class ForgotPasswordController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -22,9 +23,6 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
-
-    protected $redirectPath = '/';
-    protected $subject = 'Cambio de contraseña';
 
     /**
      * Create a new controller instance.

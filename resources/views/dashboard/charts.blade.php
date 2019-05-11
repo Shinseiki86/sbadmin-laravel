@@ -14,8 +14,7 @@
 
 @section('section')
 
-	@include('widgets.charts.panelchart', ['idCanvas' => 'chart1', 'title' => 'Contratos x Empleador' ])
-	@include('widgets.charts.panelchart', ['idCanvas' => 'chart3', 'title' => 'Retiros x Mes' ])
+	@include('widgets.charts.panelchart', ['idCanvas' => 'chart1', 'title' => 'Usuarios x Rol' ])
 
 @endsection
 
@@ -28,19 +27,11 @@
 
 			//función newChart para crear gráfico en los panelchart.
 			newChart(
-				'gestion-humana/getContratosEmpleador',
+				'usuar/getContratosEmpleador',
 				'Personal Activo',
 				'EMPL_NOMBRECOMERCIAL',
 				'count',
 				'chart1',
-				'bar'
-			);
-			newChart(
-				'gestion-humana/getIngresosMesEmpleador',
-				'Ingresos del Mes',
-				'EMPL_NOMBRECOMERCIAL',
-				'count',
-				'chart2',
 				'bar'
 			);
 

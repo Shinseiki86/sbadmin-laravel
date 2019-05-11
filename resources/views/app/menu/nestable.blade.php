@@ -10,7 +10,7 @@
 		var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 		$('.dd').nestable({
-			maxDepth: 2,
+			maxDepth: 3,
 			dropCallback: function(details) {
 				
 				var order = new Array();

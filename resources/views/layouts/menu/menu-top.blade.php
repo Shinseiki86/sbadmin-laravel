@@ -47,7 +47,6 @@
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt fa-fw"></i> Logout
                             </a>
-
                             {{ Form::open(['route'=>'logout', 'id'=>'logout-form', 'style'=>'display: none']) }}
                             {{ Form::close() }}
                         </li>

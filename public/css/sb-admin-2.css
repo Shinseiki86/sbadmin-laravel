@@ -246,6 +246,11 @@ body {
 	body.sidebar-closed #wrapper #sidebar li:hover {
 		width: 280px;
 	}
+	body.sidebar-closed #wrapper #sidebar li:hover .nav-header-level, 
+	body.sidebar-closed #wrapper #sidebar li:hover .nav-body-level{
+		width: 235px !important;
+	}
+
 	body.sidebar-closed #wrapper #sidebar li:hover > a > .side-menu-title {
 		display: inline !important;
 		padding-left: 20px;
@@ -265,54 +270,56 @@ body {
 		display: none;
 	}
 	
-	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level {
-		display: block !important;
+
+	/*  nav-*-level  */
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level,
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-third-level {
 		position: absolute;
-		z-index: 1000;
 		max-height: 300px !important;
 		overflow-x: hidden !important;
 		overflow-y: auto !important;
+		background-color: #2B6598;
+		/*border-bottom: 1px solid white;*/
 		/*height: auto;*/
 		/*overflow: visible;*/
+	}
+
+	/*  nav-second-level  */
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level{
+		display: block !important;
+		z-index: 1000;
 		top: 33px;
 		left: 46px;
 		width: 234px;
-		background-color: #2B6598;
-		border-bottom: 1px solid white;
+	}
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-third-level {
+		/*display: block !important;
+		z-index: 1001 !important;
+		top: 0px;
+		left: 280px;*/
+		max-height: 100% !important;
+		overflow-x: hidden !important;
+		overflow-y: hidden !important;
+		width: 234px;
+		position: relative;
 	}
 
 	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 		background-color: #4583b9;
 	}
-	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level::-webkit-scrollbar {
+
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level::-webkit-scrollbar, 
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-third-level::-webkit-scrollbar {
 		width: 10px;
 		background-color: #4583b9;
 	}
-	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level::-webkit-scrollbar-thumb {
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level::-webkit-scrollbar-thumb, 
+	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-third-level::-webkit-scrollbar-thumb {
 		background-color: #194267;
 	}
 
 
-	body.sidebar-closed #wrapper #sidebar li:hover > ul.nav-second-level > ul.nav-third-level {
-		display: block !important;
-		position: absolute;
-		z-index: 1000;
-		max-height: 300px !important;
-		overflow-x: hidden !important;
-		overflow-y: auto !important;
-		/*height: auto;*/
-		/*overflow: visible;*/
-		top: 40px;
-		left: 0px;
-		width: 233px;
-		background-color: #2B6598;
-		border-bottom: 1px solid white;
-	}
-	
-	body.sidebar-closed #wrapper #sidebar li:hover > ul > li:hover {
-		width: 233px;
-	}
 	
 	body.sidebar-closed #wrapper #sidebar .sidebar-search .custom-search-form {
 		display: none;

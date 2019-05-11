@@ -2,26 +2,28 @@ $(function() {
 
 	//side menu toggle (init)
 	if (isIE() <= 9) {
-		$('#sidebar').find("li.active").has("ul").children("ul").collapse("show");
-		$('#sidebar').find("li").not(".active").has("ul").children("ul").collapse("hide");
+		$('#sidebar').find('li.active').has('ul').children('ul').collapse('show');
+		$('#sidebar').find('li').not('.active').has('ul').children('ul').collapse('hide');
 	} else {
-		$('#sidebar').find("li.active").has("ul").children("ul").addClass("collapse in");
-		$('#sidebar').find("li").not(".active").has("ul").children("ul").addClass("collapse");
+		$('#sidebar').find('li.active').has('ul').children('ul').addClass('collapse in');
+		$('#sidebar').find('li').not('.active').has('ul').children('ul').addClass('collapse');
 	}
 	
 	//side menu toggle (setting)
-	$("#sidebar-area .dropdown-collapse").on((jQuery.support.touch ? "tap" : "click"), function(e) {
+	$('#sidebar-area .dropdown-collapse').on((jQuery.support.touch ? 'tap' : 'click'), function(e) {
 		//e.preventDefault();
-		
-		if ($("body").hasClass("sidebar-closed") && ($(this).attr('href')=='#' || $(this).attr('href')=='undefined')) {
+		$parent_li = $(this).parent('li');
+
+
+		if ( $('body').hasClass('sidebar-closed') && !$parent_li.hasClass('nav-header-level')  && ($(this).attr('href')=='#' || $(this).attr('href')=='undefined')) {
 			return false;
 		}
 		
-		$(this).parent("li").toggleClass("active").children("ul").collapse("toggle");
+		$parent_li.toggleClass('active').children('ul').collapse('toggle');
 		
 		//if ($toggle) { //toggle On ・ Off
 		
-		$(this).parent("li").siblings().removeClass("active").children("ul.in").collapse("hide");
+		$parent_li.siblings().removeClass('active').children('ul.in').collapse('hide');
 		
 		//}
 		//return false;
@@ -49,20 +51,20 @@ $(function() {
 $(function() {
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-	if ($.cookie && $.cookie('sidebar-closed') === '1' && !$('body').hasClass("sidebar-closed") && width >= 768) {
+	if ($.cookie && $.cookie('sidebar-closed') === '1' && !$('body').hasClass('sidebar-closed') && width >= 768) {
 		
-		$('body').addClass("sidebar-closed");
+		$('body').addClass('sidebar-closed');
 
-		$("#menu-toggle").addClass("active")
-			.find('.fa').removeClass("fa-toggle-off").addClass("fa-toggle-on");
+		$('#menu-toggle').addClass('active')
+			.find('.fa').removeClass('fa-toggle-off').addClass('fa-toggle-on');
 
 		$('#sidebar .nav-second-level, #sidebar .nav-third-level').removeClass('collapse');
 	} else {
-		$("#menu-toggle").removeClass("active")
-			.find('.fa').addClass("fa-toggle-off").removeClass("fa-toggle-on");
+		$('#menu-toggle').removeClass('active')
+			.find('.fa').addClass('fa-toggle-off').removeClass('fa-toggle-on');
 	}
 	
-	$(window).bind("load resize", function() {
+	$(window).bind('load resize', function() {
 		topOffset = 50;
 		var body = $('body');
 		var sidebarMenuSubs = $('#sidebar .nav-second-level, #sidebar .nav-third-level');
@@ -73,16 +75,16 @@ $(function() {
 			$('div.navbar-collapse').addClass('collapse');
 			topOffset = 100; // 2-row-menu
 			
-			if (body.hasClass("sidebar-closed")) {
-				body.removeClass("sidebar-closed");
+			if (body.hasClass('sidebar-closed')) {
+				body.removeClass('sidebar-closed');
 				sidebarMenuSubs.addClass('collapse');
 			}
 		} else {
 			$('div.navbar-collapse').removeClass('collapse');
 			/*
 			if ($.cookie) {
-				if ($.cookie('sidebar-closed') === 1 && !$('body').hasClass("sidebar-closed")) {
-					body.addClass("sidebar-closed");
+				if ($.cookie('sidebar-closed') === 1 && !$('body').hasClass('sidebar-closed')) {
+					body.addClass('sidebar-closed');
 					sidebarMenuSubs.removeClass('collapse');
 				}
 			}*/
@@ -92,7 +94,7 @@ $(function() {
 		height = height - topOffset;
 		if (height < 1) height = 1;
 		if (height > topOffset) {
-			$("#page-wrapper").css("min-height", (height) + "px");
+			$('#page-wrapper').css('min-height', (height) + 'px');
 		}
 	});
 
@@ -105,8 +107,8 @@ $(function() {
 	}
 	
 	//ページローディング画面の非表示化
-	if ($('#pageLoading').css("display") == "block") {
-		$('#pageLoading').delay(100).css("display","none");
+	if ($('#pageLoading').css('display') == 'block') {
+		$('#pageLoading').delay(100).css('display','none');
 	}
 
 });
@@ -120,26 +122,26 @@ var handleSidebarToggler = function () {
 	
 		var sidebarMenuSubs = $('#sidebar .nav-second-level, #sidebar .nav-third-level');
 		
-		//collapse("toggle") した際にheightが「0」になるため、height style削除
-		$("#sidebar-area .dropdown-collapse").parent("li").children("ul").css('height', '');
+		//collapse('toggle') した際にheightが「0」になるため、height style削除
+		$('#sidebar-area .dropdown-collapse').parent('li').children('ul').css('height', '');
 		
-		$(".sidebar-search", $('.page-sidebar')).removeClass("open");
-		if (body.hasClass("sidebar-closed")) {
+		$('.sidebar-search', $('.page-sidebar')).removeClass('open');
+		if (body.hasClass('sidebar-closed')) {
 
-			$("#menu-toggle").addClass("active")
-				.find('.fa').removeClass("fa-toggle-off").addClass("fa-toggle-on");
+			$('#menu-toggle').addClass('active')
+				.find('.fa').removeClass('fa-toggle-off').addClass('fa-toggle-on');
 
-			body.removeClass("sidebar-closed");
+			body.removeClass('sidebar-closed');
 			sidebarMenuSubs.addClass('collapse');
 			
 			if ($.cookie) {
 				$.cookie('sidebar-closed', '0');
 			}
 		} else {
-			body.addClass("sidebar-closed");
+			body.addClass('sidebar-closed');
 
-			$("#menu-toggle").removeClass("active")
-				.find('.fa').addClass("fa-toggle-off").removeClass("fa-toggle-on");
+			$('#menu-toggle').removeClass('active')
+				.find('.fa').addClass('fa-toggle-off').removeClass('fa-toggle-on');
 
 			sidebarMenuSubs.removeClass('collapse');
 			
@@ -155,10 +157,10 @@ var handleSidebarToggler = function () {
 var isIE = function() {
 	var undef,
 		v = 3,
-		div = document.createElement("div"),
-		all = div.getElementsByTagName("i");
+		div = document.createElement('div'),
+		all = div.getElementsByTagName('i');
 	while (
-		div.innerHTML = "<!--[if gt IE " + (++v) + "]><i></i><![endif]-->",
+		div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
 		all[0]
 	) {
 		return v > 4 ? v : undef;

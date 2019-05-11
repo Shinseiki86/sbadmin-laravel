@@ -1,4 +1,4 @@
-<div class="dd-handle dd3-handle">Drag</div>
+<div class="dd-handle dd3-handle"></div>
 <div class="dd3-content">
 	<i class="fas {{ $item['MENU_ICON'] }} fa-fw"></i> 
 	{{ $item['MENU_LABEL'] }} @if(!$item['MENU_ENABLED'])(DESHABILITADO)@endif

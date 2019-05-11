@@ -10,21 +10,23 @@
 |
 */
 
-
 use Illuminate\Support\Arr;
 use Carbon\Carbon;
+
+use App\Models\ParametroGeneral;
 
 
 if (! function_exists('expression_concat')) {
     /**
-     * Construye una expresión sql para concatenar columnas.
+     * Crea un array con la llave primaria y una columna a partir de un Model.
+     * Se utiliza para contruir <select> en los views.
      *
      * @param  string|Model  $class
      * @param  string  $column
      * @param  string  $primaryKey
      * @return array
      */
-    function expression_concat($columns = [], $alias = 'concat', $glue=' ', $table = null)
+    function expression_concat($columns = [], $alias = 'concat', $table = null)
     {
         if(config('database.default') == 'pgsql'){
             foreach ($columns as $key => $column) {
@@ -33,7 +35,7 @@ if (! function_exists('expression_concat')) {
             $alias = '"'.$alias.'"';
         }
         
-        $sqlIni = 'CONCAT_WS(\''.$glue.'\',';
+        $sqlIni = 'CONCAT_WS(\' \',';
         $sqlEnd = ') AS '.$alias;
         $sqlColumns = null;
         foreach ($columns as $column) {
@@ -48,7 +50,8 @@ if (! function_exists('expression_concat')) {
 
 if (! function_exists('expression_count')) {
     /**
-     * Construye una expresión sql para contar registros en una columna.
+     * Crea un array con la llave primaria y una columna a partir de un Model.
+     * Se utiliza para contruir <select> en los views.
      *
      * @param  string|Model  $class
      * @param  string  $column
@@ -272,7 +275,6 @@ if (! function_exists('datetime')) {
 }
 
 
-
 if (! function_exists('get_logo')) {
     /**
      * Verifica si existe un logo definido por el usuario. Retorna la ruta del logo corporativo.
@@ -309,3 +311,104 @@ if (! function_exists('number_to_letter')) {
         return $numFormat->format($num);
     }
 }
+
+if (! function_exists('validaFecha')) {
+    /**
+     * Convierte una cadena de texto a una fecha
+     * @param string $fecha_string Mensaje a presentar.
+     * @return a date 
+     */
+    function validaFecha($fechaI,$fechaF) {
+        $dtI = Carbon::parse($fechaI);
+        $dtF = Carbon::parse($fechaF);
+        $cant="true";
+        if ($dtI>$dtF) {
+            $cant="false";
+        }
+        return $cant;
+    }
+}
+
+
+if (! function_exists('fechaActual')) {
+    /**
+     * Retorna la fecha actual
+     * @return string 
+     */
+    function fechaActual() {  
+        $date = Carbon::now();   
+        return $date->toDateString(); 
+    }
+}
+
+
+if (! function_exists('getGlobalParameter')) {
+    /**
+     * Retorna un parámetro general desde la base de datos.
+     * @return string 
+     */
+    function getGlobalParameter($PAGE_DESCRIPCION, $valueDefault) {  
+        $parameter = ParametroGeneral::where('PAGE_DESCRIPCION', $PAGE_DESCRIPCION)->first();
+        if(isset($parameter))
+            $parameter = $parameter->PAGE_VALOR;
+        else
+            $parameter = $valueDefault;
+
+        return $parameter;
+    }
+}
+
+if (! function_exists('getFechaHabilAdicionada')) {
+    /**
+     * Retorna una fecha calculada con base en una fecha inicial y un número de días. Esta fecha se encuentra excluida de días habiles y sin contar los días festivos
+     * @return string 
+     */
+    function getFechaHabilAdicionada($fecha, $dias) {
+        //se trae el parametro general que contiene todos los festivos
+        $parameter = getGlobalParameter('DIAS_FESTIVOS', null);
+        //se crea un arreglo con los festivos que trae el parametro anterior
+        $festivos = explode(',', $parameter);
+        //se Parsea la fecha que viene como parametro a Carbon
+        $fechafinal = Carbon::parse($fecha);
+        //se le suman los días que vienen como parametro
+        $fechafinal->addWeekdays($dias);
+        //se valida que festivos sea diferente de nulo
+        if(isset($festivos)){
+            //se recorren todos los festivos
+            for($i = 1; $i <= $dias; $i++) {
+                //se revisa si alguna de las fechas es un Festivo
+                if(in_array(Carbon::parse($fecha)->addWeekdays($i)->toDateString(), $festivos)) {
+                    $fechafinal->addDay();
+                }
+            }
+        }
+        else{
+            $fechafinal = null;
+        }
+
+        return $fechafinal;
+        
+    }
+    
+}
+
+
+if (! function_exists('number_to_ordinal')) {
+    /**
+     * Retorna un texto con los números ordinales
+     * @return string 
+     */
+    function number_to_ordinal($num) {
+        //se trae el parametro general que contiene todos los festivos
+        $ordinal = [
+            1=>'first',
+            2=>'second',
+            3=>'third',
+            4=>'fourth',
+        ];
+        return $ordinal[$num];
+        
+    }
+    
+}
+

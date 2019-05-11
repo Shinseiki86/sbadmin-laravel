@@ -37,7 +37,7 @@ class ModelController extends Controller
 			$relationships = $modelClass::getRelationships();
 			$keysRelationships = array_keys($relationships);
 
-			$data = Input::get();
+			$data = $this->getRequest();
 
 			//Se separan atributos de relaciones
 			$relations = array_only($data, $keysRelationships);
@@ -47,23 +47,23 @@ class ModelController extends Controller
 				$attr
 			);
 
-
 			//$this->saveRelationsBelongsTo($relationships);
 			//Los valores para las relaciones BelongsTo serán agregadas en el array principal, ya que si el campo es obligatorio generará error al realizarlo por ->associate(...)
 			$relsBelongsTo = array_filter($relationships, function ($val){
 								return ($val['type']=='BelongsTo');
 					});
+
 			foreach ($relsBelongsTo as $rel => $value) {
 				$modelRel = get_model( $value['model']);
 				$modelRel = new $modelRel;
 				$filterKey = $modelRel::getFilterKey();
-				$modelRel = $modelRel->where($filterKey, $relations[$rel])->first();
+
+				$modelRel = $modelRel->where($filterKey, mb_strtoupper($relations[$rel]))->first();
 				if($modelRel)
 					$attr[$value['primaryKey']] =  $modelRel->getKey();
 				else
 					$this->alerts[] = 'No existe "'.$relations[$rel].'" en '.str_upperspace(class_basename($value['model']));
 			}
-
 
 
 			//Se busca registro entre los existentes y eliminados.
@@ -75,7 +75,6 @@ class ModelController extends Controller
 			}
 
 			$id = isset($model) ? $model->getKey() : 0;
-
 
 
 			//Se valida que los datos cumplan las reglas definidas para el modelo
@@ -201,5 +200,4 @@ class ModelController extends Controller
 		return $model;
 	}
 
-	
 }

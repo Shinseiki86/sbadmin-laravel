@@ -23,6 +23,11 @@ Route::group(['prefix'=>'auth', 'as'=>'auth.', 'namespace'=>'Auth'], function() 
 	Route::resource('permisos', 'PermissionController');
 });
 
+//Dashboard
+Route::get('getDashboardUsuariosPorRol', 'Auth\RoleController@getUsuariosPorRol');
+
+
+//Página principal. Si el usuario es admin, se muestra el dashboard.
 Route::group(['middleware'=>'auth'], function() {
 	Route::get('/', function(){
 		if(Entrust::hasRole(['owner','admin','gesthum']))
@@ -59,6 +64,8 @@ Route::group(['prefix'=>'cnfg-geograficos', 'as'=>'CnfgGeograficos.', 'namespace
 	Route::get('getDepartamentos', 'DepartamentoController@getData');
 	Route::resource('ciudades', 'CiudadController', ['parameters'=>['ciudad'=>'CIUD_ID']]);
 	Route::get('getCiudades', 'CiudadController@getData');
+	Route::resource('barrios', 'BarrioController', ['parameters'=>['barrio'=>'BARR_ID']]);
+	Route::get('getBarrios', 'BarrioController@getData');
 });
 
 

@@ -97,15 +97,13 @@ use App\Models\Permission;
                 $this->createPermissions(Permission::class, 'permisos', null, true, false);
                 $this->createPermissions(Role::class, 'roles', null, true, false);
 
-
                 $this->createPermissions(Pais::class, 'países', null, true, false);
                 $this->createPermissions(Departamento::class, 'departamentos', null, true, false);
                 $this->createPermissions(Ciudad::class, 'ciudades', null, true, false);
-
+                $this->createPermissions(Barrio::class, 'barrios', null, true, false);
 
                 //$this->createPermissions(Prospecto::class, 'hojas de vida');
                 
-
             //*********************************************************************
             $this->command->info('--- Seeder Creación de Usuarios prueba');
 
@@ -127,7 +125,7 @@ use App\Models\Permission;
                     'email' => 'owner@mail.com',
                     'password'  => \Hash::make($pass),
                 ]);
-                $owner->attachRole($this->rolOwner);
+                $owner->attachRoles([$this->rolAdmin, $this->rolOwner]);
 
                 //Editores
                 $gesthum1 = User::create( [
@@ -148,7 +146,7 @@ use App\Models\Permission;
                     'password'  => \Hash::make($pass),
                     'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
-                $super->attachRole($rolSuperOper);
+				$super->attachRoles([$rolSuperOper, $rolCoorOper, $rolEjecutivo]);
 
                 $coordi = User::create( [
                     'name' => 'Coordinador de prueba',
@@ -177,7 +175,7 @@ use App\Models\Permission;
 
         private function createPermissions($name, $display_name, $description = null, $attachAdmin=true, $attachGestHum=true)
         {
-            $name = strtolower(basename(get_model($name)));
+            $name = strtolower(last(explode('\\',basename(get_model($name)))));
 
             if($description == null)
                 $description = $display_name;

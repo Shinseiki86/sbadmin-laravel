@@ -15,7 +15,7 @@
 		]) }}
 		@endif
 
-		{{ Form::button('<i class="fas fa-'.(isset($icon)?$icon:'floppy-o').'" aria-hidden="true"></i> '.(isset($text)?$text:'Guardar'), [
+		{{ Form::button('<i class="fas fa-'.(isset($icon)?$icon:'save').'" aria-hidden="true"></i> '.(isset($text)?$text:'Guardar'), [
 			'class'=>'btn btn-primary',
 			'name'=>'submit',
 			'type'=>'submit',
